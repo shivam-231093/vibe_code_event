@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=K2D:wght@700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Space+Grotesk:wght@300..700&family=Syne:wght@400..800&display=swap');
+@import "tailwindcss";
+
+@keyframes fade-in-word {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-word {
+  animation: fade-in-word 0.4s ease forwards;
+}
+
+
+@theme {
+    --font-poppins: Poppins, sans-serif;
+    --font-goldman: Goldman, sans-serif;
+    --font-inter: Inter, sans-serif;
+    --font-syne: Syne, sans-serif;
+    --font-space-grostesk: "Space Grotesk", sans-serif;
+    --font-k2d: "K2D", sans-serif;
+    --breakpoint-ml: 55rem;
+    --breakpoint-ms: 35rem;
+}
+
+:root {
+  color: rgb(255, 255, 255);
+  background-color: #000000;
+}
+
+@media screen and (width <= 640px){
+  :root {
+    font-size: 0.8em;
+  }
+}
+
+.text-outline {
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px;
+}
+
+
+.trivia-card {
+  --flip-card-height: 24rem;
+  --flip-card-transition-duration: 800ms;
+  --flip-card-border-radius: 4px;
+  --flip-card-box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  --flip-card-background-color-front: transparent;
+  --flip-card-background-color-back: transparent;
+  --flip-card-transition-timing-function: ease;
+}
+
