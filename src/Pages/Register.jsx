@@ -9,7 +9,7 @@ const inputFieldList = [
   { type: "text", name: "fullName", label: "Full Name", options: { required: true } },
   { type: "text", name: "phoneNum", label: "Phone Number", options: { required: true, patten: /^\d+$/, maxLength: 10 } },
   { type: "text", name: "emailId", label: "Email Address", options: { required: true, patten: /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/ } },
-  { type: "text", name: "branch", label: "Branch", options: { required: true }, dropdown: true, values: ["AI", "CE", "CS", "EE", "MT", "IP", "IT"] },
+  { type: "text", name: "branch", label: "Branch", options: { required: true }, dropdown: true, values: ["AI", "CE", "CS","ECE", "EE","MECH", "MT", "IP", "IT"] },
   { type: "text", name: "semester", label: "Semester", options: { required: true }, dropdown: true, values: ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th"] },
   { type: "text", name: "github", label: "Github" },
   { type: "text", name: "linkdin", label: "LinkedIn" },
