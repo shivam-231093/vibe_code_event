@@ -9,6 +9,7 @@ import Humans from './Pages/Humans'
 import './App.css'
 import "flip-card-wc"
 import humans from './Pages/Humans'
+import { Analytics } from '@vercel/analytics/react';
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,7 @@ function App() {
 
   return (
     <>
+      <Analytics />
       <RouterProvider router={router} />
     </>
   )
