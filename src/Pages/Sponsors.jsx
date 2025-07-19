@@ -6,44 +6,48 @@ import { motion } from "framer-motion";
 // Sponsor Card Component
 const SponsorCard = ({ name, logo, type, description, website, instagram }) => {
   return (
-    <div className="relative my-6 mx-auto max-w-lg w-full rounded-xl overflow-hidden bg-black bg-opacity-90 border border-red-600/30 shadow-2xl shadow-red-500/20 transition-all duration-300 hover:shadow-red-500/30 hover:scale-[1.01]">
-      <div className="absolute left-0 top-[7.5%] h-[85%] w-1.5 bg-gradient-to-b from-red-500 to-red-600"></div>
+    <div className="relative my-4 sm:my-6 mx-auto max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl w-full rounded-xl overflow-hidden bg-black bg-opacity-90 border border-red-600/30 shadow-2xl shadow-red-500/20 transition-all duration-300 hover:shadow-red-500/30 hover:scale-[1.01]">
+      <div className="absolute left-0 top-[7.5%] h-[85%] w-1 sm:w-1.5 bg-gradient-to-b from-red-500 to-red-600"></div>
 
-      <div className="p-6">
-        <div className="flex justify-between items-center mb-5">
-          <div>
-            <span className="inline-block px-4 py-2 rounded-md text-sm font-bold bg-red-600 text-white mb-2 shadow-md shadow-red-600/20">
+      <div className="p-4 sm:p-5 lg:p-6">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-4 sm:mb-5">
+          <div className="flex-1">
+            <span className="inline-block px-3 py-1.5 sm:px-4 sm:py-2 rounded-md text-xs sm:text-sm font-bold bg-red-600 text-white mb-2 shadow-md shadow-red-600/20">
               {type}
             </span>
-            <h3 className="text-white text-xl md:text-2xl font-bold tracking-tight">
+            <h3 className="text-white text-lg sm:text-xl lg:text-2xl font-bold tracking-tight leading-tight">
               {name}
             </h3>
           </div>
-          <div className="relative rounded-full p-2 bg-gradient-to-br from-black/50 to-red-600/10 backdrop-blur-sm">
-            <img src={logo} alt={name} className="w-20 h-20 object-contain" />
+          <div className="relative rounded-full p-2 bg-gradient-to-br from-black/50 to-red-600/10 backdrop-blur-sm self-center sm:self-start flex-shrink-0">
+            <img
+              src={logo}
+              alt={name}
+              className="w-16 h-16 sm:w-18 sm:h-18 lg:w-20 lg:h-20 object-contain"
+            />
           </div>
         </div>
 
-        <p className="text-white/90 mb-6 text-base leading-relaxed">
+        <p className="text-white/90 mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">
           {description}
         </p>
 
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
           <a
             href={website}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-red-500 text-red-400 hover:bg-red-500/10 transition-colors duration-300"
+            className="flex items-center justify-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg border border-red-500 text-red-400 hover:bg-red-500/10 transition-colors duration-300 text-sm sm:text-base"
           >
-            <FaGlobe className="text-lg" /> Visit Website
+            <FaGlobe className="text-base sm:text-lg" /> Visit Website
           </a>
           <a
             href={instagram}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-white/20 text-white/90 hover:bg-white/5 transition-colors duration-300"
+            className="flex items-center justify-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg border border-white/20 text-white/90 hover:bg-white/5 transition-colors duration-300 text-sm sm:text-base"
           >
-            <FaInstagram className="text-lg" /> Instagram
+            <FaInstagram className="text-base sm:text-lg" /> Instagram
           </a>
         </div>
       </div>
@@ -113,21 +117,21 @@ const Sponsors = () => {
   ];
 
   const SectionHeading = ({ title }) => (
-    <div className="relative text-center my-10 py-4">
+    <div className="relative text-center my-4 sm:my-6 md:my-8 lg:my-10 py-2 sm:py-3 md:py-4">
       <img
         src={image}
         alt="star"
-        className="absolute left-[20%] top-[-10px] w-8 opacity-70 transform rotate-[15deg] animate-pulse"
+        className="absolute left-[10%] sm:left-[15%] md:left-[20%] top-[-6px] sm:top-[-8px] md:top-[-10px] w-4 sm:w-6 md:w-7 lg:w-8 opacity-70 transform rotate-[15deg] animate-pulse"
       />
       <img
         src={image}
         alt="star"
-        className="absolute right-[25%] bottom-0 w-5 opacity-50 transform -rotate-[10deg] animate-pulse"
+        className="absolute right-[15%] sm:right-[20%] md:right-[25%] bottom-0 w-3 sm:w-4 md:w-5 opacity-50 transform -rotate-[10deg] animate-pulse"
       />
-      <h2 className="text-white font-bold text-2xl md:text-3xl relative inline-block">
+      <h2 className="text-white font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl relative inline-block px-2">
         <span className="relative">
           {title}
-          <div className="absolute h-1 w-[70%] bg-gradient-to-r from-red-500 to-red-600 bottom-[-8px] left-[15%]"></div>
+          <div className="absolute h-0.5 sm:h-1 w-[70%] bg-gradient-to-r from-red-500 to-red-600 bottom-[-4px] sm:bottom-[-6px] md:bottom-[-8px] left-[15%]"></div>
         </span>
       </h2>
     </div>
@@ -138,7 +142,7 @@ const Sponsors = () => {
       <div className="w-full">
         {/* Hero section */}
         <div
-          className="relative overflow-hidden flex items-center justify-center h-[50vh]"
+          className="relative overflow-hidden flex items-center justify-center min-h-[50vh] sm:h-[45vh] md:h-[50vh] lg:h-[55vh] py-8 sm:py-12"
           style={{
             backgroundImage:
               "linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%)",
@@ -157,11 +161,11 @@ const Sponsors = () => {
           <img
             src={image}
             alt="star"
-            className="absolute z-[2]"
+            className="absolute z-[2] hidden sm:block"
             style={{
-              left: "calc(10% - 60px)",
-              top: "calc(30% - 60px)",
-              width: "40px",
+              left: "calc(5% - 30px)",
+              top: "calc(30% - 30px)",
+              width: "30px",
               opacity: 0.7,
               transform: `rotate(${scrollY * 0.1}deg)`,
               pointerEvents: "none",
@@ -171,11 +175,11 @@ const Sponsors = () => {
           <img
             src={image}
             alt="star"
-            className="absolute z-[2]"
+            className="absolute z-[2] hidden sm:block"
             style={{
-              right: "calc(10% - 40px)",
-              bottom: "calc(10% - 30px)",
-              width: "25px",
+              right: "calc(5% - 20px)",
+              bottom: "calc(10% - 15px)",
+              width: "20px",
               opacity: 0.5,
               transform: `rotate(${-scrollY * 0.05}deg)`,
               pointerEvents: "none",
@@ -184,7 +188,7 @@ const Sponsors = () => {
 
           <motion.div
             ref={(el) => (sectionRefs.current["hero"] = el)}
-            className="text-center relative z-[3]"
+            className="text-center relative z-[3] px-4 sm:px-6 lg:px-8 w-full max-w-6xl"
             initial={{ filter: "blur(10px)", opacity: 0, y: -50 }}
             animate={
               inView["hero"]
@@ -193,13 +197,13 @@ const Sponsors = () => {
             }
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <h1 className="text-red-600 font-bold text-5xl md:text-6xl mb-0">
+            <h1 className="text-red-600 font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl mb-2 sm:mb-0 leading-tight">
               Our Sponsors
             </h1>
             <div className="flex justify-center">
-              <div className="bg-gradient-to-r from-red-500 to-red-600 h-1 w-20 my-4"></div>
+              <div className="bg-gradient-to-r from-red-500 to-red-600 h-0.5 sm:h-1 w-12 sm:w-16 md:w-20 my-2 sm:my-3 md:my-4"></div>
             </div>
-            <p className="text-white text-lg md:text-xl mx-auto max-w-4xl px-4 text-balance">
+            <p className="text-white text-sm sm:text-base md:text-lg lg:text-xl mx-auto max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl px-2 sm:px-4 text-balance leading-relaxed">
               We proudly acknowledge our amazing partners{" "}
               <span className="text-red-500 font-bold">
                 SURYAVANSHI VENTURES
@@ -214,7 +218,7 @@ const Sponsors = () => {
           </motion.div>
         </div>
 
-        <div className="container mx-auto py-10 px-4">
+        <div className="container mx-auto py-4 sm:py-6 md:py-8 lg:py-10 px-4 sm:px-6 lg:px-8 max-w-7xl">
           {/* Title Sponsor */}
           <motion.div
             ref={(el) => (sectionRefs.current["title"] = el)}
@@ -228,13 +232,13 @@ const Sponsors = () => {
           >
             <SectionHeading title="Title Sponsor" />
             <div className="flex justify-center">
-              {sponsors
-                .filter((sponsor) => sponsor.type === "Title Sponsor")
-                .map((sponsor, index) => (
-                  <div className="w-full" key={index}>
-                    <SponsorCard {...sponsor} />
-                  </div>
-                ))}
+              <div className="w-full max-w-4xl">
+                {sponsors
+                  .filter((sponsor) => sponsor.type === "Title Sponsor")
+                  .map((sponsor, index) => (
+                    <SponsorCard {...sponsor} key={index} />
+                  ))}
+              </div>
             </div>
           </motion.div>
 
@@ -251,13 +255,13 @@ const Sponsors = () => {
           >
             <SectionHeading title="Sports Sponsor" />
             <div className="flex justify-center">
-              {sponsors
-                .filter((sponsor) => sponsor.type === "Sports Sponsor")
-                .map((sponsor, index) => (
-                  <div className="w-full" key={index}>
-                    <SponsorCard {...sponsor} />
-                  </div>
-                ))}
+              <div className="w-full max-w-4xl">
+                {sponsors
+                  .filter((sponsor) => sponsor.type === "Sports Sponsor")
+                  .map((sponsor, index) => (
+                    <SponsorCard {...sponsor} key={index} />
+                  ))}
+              </div>
             </div>
           </motion.div>
 
@@ -271,7 +275,7 @@ const Sponsors = () => {
                 : { filter: "blur(10px)", opacity: 0, y: 50 }
             }
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
-            className="text-center my-16 py-8 px-4 rounded-xl relative"
+            className="text-center my-8 sm:my-12 md:my-16 py-6 sm:py-8 px-4 sm:px-6 rounded-xl relative max-w-4xl mx-auto"
             style={{
               background:
                 "linear-gradient(to right, rgba(220,53,69,0.05), rgba(220,53,69,0.1), rgba(220,53,69,0.05))",
@@ -279,15 +283,15 @@ const Sponsors = () => {
           >
             <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-red-500/5 to-transparent blur-xl opacity-70"></div>
             <div className="relative z-10">
-              <h3 className="text-white text-2xl md:text-3xl font-bold mb-4">
+              <h3 className="text-white text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4">
                 Become a Sponsor
               </h3>
-              <p className="text-white/70 mb-6 max-w-2xl mx-auto">
+              <p className="text-white/70 mb-4 sm:mb-6 max-w-xs sm:max-w-lg md:max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
                 Support the tech community and gain visibility for your brand by
                 sponsoring VIBE CODE 2025. We offer various sponsorship packages
                 to match your organization's goals.
               </p>
-              <button className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-500 text-white font-medium rounded-lg shadow-lg shadow-red-500/20 hover:shadow-red-500/30 transition-all duration-300 hover:translate-y-[-2px]">
+              <button className="px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-red-600 to-red-500 text-white font-medium rounded-lg shadow-lg shadow-red-500/20 hover:shadow-red-500/30 transition-all duration-300 hover:translate-y-[-2px] text-sm sm:text-base">
                 Contact for Sponsorship
               </button>
             </div>
