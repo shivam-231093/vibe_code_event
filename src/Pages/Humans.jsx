@@ -66,11 +66,12 @@ const Humans = () => {
             alt="star"
             className="absolute z-[2]"
             style={{
-              left: "calc(50% - 100px)",
-              top: "calc(50% - 80px)",
+              left: "calc(10% - 60px)",
+              top: "calc(30% - 60px)",
               width: "40px",
               opacity: 0.7,
               transform: `rotate(${scrollY * 0.1}deg)`,
+              pointerEvents: "none",
             }}
           />
 
@@ -104,14 +105,15 @@ const Humans = () => {
           </div>
         </div>
 
-        <div className="container mx-auto py-10 px-4">
+        <div className="container mx-auto py-12 px-4 relative">
+          <div className="absolute inset-0 bg-gradient-to-b from-red-600/5 via-transparent to-red-600/5 pointer-events-none"></div>
           {/* Faculty Advisors Section */}
           <SectionHeading title="Faculty Advisors" />
           <div className="relative">
             <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-r from-black to-transparent z-10"></div>
             <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-l from-black to-transparent z-10"></div>
             <div
-              className="flex flex-row flex-nowrap overflow-x-auto py-6 px-3 mt-5 scrollbar-hide scroll-smooth"
+              className="flex flex-row flex-nowrap overflow-x-auto py-8 px-3 mt-5 scrollbar-hide scroll-smooth justify-center md:justify-start"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
               <TeamCard
@@ -141,7 +143,7 @@ const Humans = () => {
             <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-r from-black to-transparent z-10"></div>
             <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-l from-black to-transparent z-10"></div>
             <div
-              className="flex flex-row flex-nowrap overflow-x-auto py-6 px-3 scrollbar-hide scroll-smooth"
+              className="flex flex-row flex-nowrap overflow-x-auto py-8 px-3 scrollbar-hide scroll-smooth justify-center md:justify-start"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
               <TeamCard
@@ -165,7 +167,7 @@ const Humans = () => {
             <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-r from-black to-transparent z-10"></div>
             <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-l from-black to-transparent z-10"></div>
             <div
-              className="flex flex-row flex-nowrap overflow-x-auto py-6 px-3 scrollbar-hide scroll-smooth"
+              className="flex flex-row flex-nowrap overflow-x-auto py-8 px-3 scrollbar-hide scroll-smooth justify-center md:justify-start"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
               <TeamCard
@@ -213,7 +215,7 @@ const Humans = () => {
             <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-r from-black to-transparent z-10"></div>
             <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-l from-black to-transparent z-10"></div>
             <div
-              className="flex flex-row flex-nowrap overflow-x-auto py-6 px-3 scrollbar-hide scroll-smooth"
+              className="flex flex-row flex-nowrap overflow-x-auto py-8 px-3 scrollbar-hide scroll-smooth justify-center md:justify-start"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
               <TeamCard
@@ -249,7 +251,7 @@ const Humans = () => {
             <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-r from-black to-transparent z-10"></div>
             <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-l from-black to-transparent z-10"></div>
             <div
-              className="flex flex-row flex-nowrap overflow-x-auto py-6 px-3 scrollbar-hide scroll-smooth"
+              className="flex flex-row flex-nowrap overflow-x-auto py-8 px-3 scrollbar-hide scroll-smooth justify-center md:justify-start"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
               <TeamCard

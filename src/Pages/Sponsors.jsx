@@ -133,11 +133,12 @@ const Sponsors = () => {
             alt="star"
             className="absolute z-[2]"
             style={{
-              left: "calc(50% - 100px)",
-              top: "calc(50% - 80px)",
+              left: "calc(10% - 60px)",
+              top: "calc(30% - 60px)",
               width: "40px",
               opacity: 0.7,
               transform: `rotate(${scrollY * 0.1}deg)`,
+              pointerEvents: "none",
             }}
           />
 
@@ -146,11 +147,12 @@ const Sponsors = () => {
             alt="star"
             className="absolute z-[2]"
             style={{
-              right: "calc(30% - 50px)",
-              bottom: "calc(30% - 50px)",
+              right: "calc(10% - 40px)",
+              bottom: "calc(10% - 30px)",
               width: "25px",
               opacity: 0.5,
               transform: `rotate(${-scrollY * 0.05}deg)`,
+              pointerEvents: "none",
             }}
           />
 
@@ -161,7 +163,7 @@ const Sponsors = () => {
             <div className="flex justify-center">
               <div className="bg-gradient-to-r from-red-500 to-red-600 h-1 w-20 my-4"></div>
             </div>
-            <p className="text-white text-lg md:text-xl mx-auto max-w-4xl px-4">
+            <p className="text-white text-lg md:text-xl mx-auto max-w-4xl px-4 text-balance">
               We proudly acknowledge our amazing partners{" "}
               <span className="text-red-500 font-bold">
                 SURYAVANSHI VENTURES
