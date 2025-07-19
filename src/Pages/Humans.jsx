@@ -163,21 +163,21 @@ const Humans = () => {
                 style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
               >
                 <TeamCard
-                  image={"https://randomuser.me/api/portraits/men/41.jpg"}
-                  name="Mr. ABC Sir"
-                  position="Professor, Computer Science"
-                  description="10+ years of experience in Computer Science education. Expert in AI and Machine Learning technologies."
+                  image={"src/assets/sachinsir.jpeg"}
+                  name="Mr.Sachindra Dubey"
+                  position="Associate Professor, Computer Science"
+                  description="8+ years of experience in Computer Science education"
                 />
                 <TeamCard
-                  image={"https://randomuser.me/api/portraits/women/68.jpg"}
-                  name="Mrs. Mamta Lambert"
-                  position="Associate Professor, IT"
+                  image={"src/assets/mamtamam.jpeg"}
+                  name="Dr. Mamta Lambert"
+                  position="Head of Department, IT"
                   description="Specializes in Database Management Systems and Software Engineering with 8+ years of teaching experience."
                 />
                 <TeamCard
-                  image={"https://randomuser.me/api/portraits/men/32.jpg"}
-                  name="Mr. XYZ Sir"
-                  position="Assistant Professor, CS"
+                  image={"src/assets/abhilashsir.jpeg"}
+                  name="Mr. Abhilash Patel"
+                  position="Assistant Professor, Mechatronics Engineering"
                   description="Research focus on Cybersecurity and Cloud Computing. Active contributor to academic journals."
                 />
               </div>
@@ -204,23 +204,23 @@ const Humans = () => {
                 style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
               >
                 <TeamCard
-                  image={"https://randomuser.me/api/portraits/men/22.jpg"}
+                  image={"src/assets/shivam.jpg"}
                   name="Shivam Mishra"
                   position="Lead Coordinator"
-                  description="Student at JEC and a member of MATRIX JEC. Specializes in event management and team coordination."
+                  description="Student at JEC and a member of MATRIX JEC. Specializes in event management, team coordination and technical aspects."
                 />
                 <TeamCard
-                  image={"https://randomuser.me/api/portraits/women/22.jpg"}
+                  image={"src/assets/rishika.jpg"}
                   name="Rishika Fulwani"
-                  position="Technical Coordinator"
+                  position="Co-Lead Coordinator"
                   description="Student at JEC and a member of MATRIX JEC. Handles technical aspects of events and workshops."
                 />
               </div>
             </div>
           </motion.div>
 
-          {/* Volunteers Section */}
-          <motion.div
+          
+          {/* <motion.div
             ref={(el) => (sectionRefs.current["volunteers"] = el)}
             initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
             animate={
@@ -229,8 +229,8 @@ const Humans = () => {
                 : { filter: "blur(10px)", opacity: 0, y: 50 }
             }
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
-          >
-            <SectionHeading title="Volunteers" />
+          > */}
+            {/* <SectionHeading title="Volunteers" />
             <div className="relative">
               <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-r from-black to-transparent z-10"></div>
               <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-l from-black to-transparent z-10"></div>
@@ -279,7 +279,7 @@ const Humans = () => {
           </motion.div>
 
           {/* Domain Heads Section */}
-          <motion.div
+          {/* <motion.div
             ref={(el) => (sectionRefs.current["domain"] = el)}
             initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
             animate={
@@ -325,7 +325,7 @@ const Humans = () => {
             </div>
           </motion.div>
 
-          {/* Website Developers Section */}
+          
           <motion.div
             ref={(el) => (sectionRefs.current["developers"] = el)}
             initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
@@ -370,7 +370,7 @@ const Humans = () => {
                 />
               </div>
             </div>
-          </motion.div>
+          </motion.div> */} 
 
           {/* Matrix Logo */}
           <motion.div

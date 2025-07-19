@@ -33,14 +33,14 @@ const SponsorCard = ({ name, logo, type, description, website, instagram }) => {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-          <a
+          {/* <a
             href={website}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg border border-red-500 text-red-400 hover:bg-red-500/10 transition-colors duration-300 text-sm sm:text-base"
           >
             <FaGlobe className="text-base sm:text-lg" /> Visit Website
-          </a>
+          </a> */}
           <a
             href={instagram}
             target="_blank"
