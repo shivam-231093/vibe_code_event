@@ -1,26 +1,25 @@
-import { useState } from 'react'
-import { createBrowserRouter, RouterProvider } from 'react-router'
-import MainLayout from './layouts/MainLayout'
-import Home from './Pages/Home'
-import FAQpage from './Pages/FAQpage'
-import Contact from './Pages/Contact'
-import Register from './Pages/Register'
-import Humans from './Pages/Humans'
-import './App.css'
-import "flip-card-wc"
-import humans from './Pages/Humans'
-import { Analytics } from '@vercel/analytics/react';
+import { createBrowserRouter, RouterProvider } from "react-router";
+import MainLayout from "./layouts/MainLayout";
+import Home from "./Pages/Home";
+import FAQpage from "./Pages/FAQpage";
+import Contact from "./Pages/Contact";
+import Register from "./Pages/Register";
+import Humans from "./Pages/Humans";
+import Sponsors from "./Pages/Sponsors";
+import "./App.css";
+import "flip-card-wc";
+import { Analytics } from "@vercel/analytics/react";
 
 const router = createBrowserRouter([
   {
     Component: MainLayout,
     children: [
       {
-        path: '/',
+        path: "/",
         Component: Home,
       },
       {
-        path: '/faqs',
+        path: "/faqs",
         Component: FAQpage,
       },
       {
@@ -28,25 +27,28 @@ const router = createBrowserRouter([
         Component: Contact,
       },
       {
-        path: '/register',
+        path: "/register",
         Component: Register,
       },
       {
-        path: '/humans',
-        Component: humans,
+        path: "/humans",
+        Component: Humans,
       },
-    ]
+      {
+        path: "/sponsors",
+        Component: Sponsors,
+      },
+    ],
   },
-])
+]);
 
 function App() {
-
   return (
     <>
       <Analytics />
       <RouterProvider router={router} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

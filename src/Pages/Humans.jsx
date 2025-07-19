@@ -1,497 +1,409 @@
-import react from 'react'
-import { useNavigate } from 'react-router';
-
-import image from '/star.svg'
-import logo from '/star.svg'
-import matrix from '/star.svg'
+import TeamCard from "../components/TeamCard";
+import image from "/star.svg";
+import matrix from "/matrixLogo.png";
+import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 
 const Humans = () => {
+  const [scrollY, setScrollY] = useState(0);
+  const [inView, setInView] = useState({});
+  const sectionRefs = useRef({});
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
 
-  const handleRegisterClick = () => {
-    navigate('/register');
-  };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    const observers = {};
+
+    Object.keys(sectionRefs.current).forEach((key) => {
+      if (sectionRefs.current[key]) {
+        observers[key] = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              setInView((prev) => ({ ...prev, [key]: true }));
+              observers[key].unobserve(sectionRefs.current[key]);
+            }
+          },
+          { threshold: 0.1, rootMargin: "0px" }
+        );
+        observers[key].observe(sectionRefs.current[key]);
+      }
+    });
+
+    return () => {
+      Object.values(observers).forEach((observer) => observer.disconnect());
+    };
+  }, []);
+
+  const SectionHeading = ({ title }) => (
+    <div className="relative text-center my-10 py-4">
+      <img
+        src={image}
+        alt="star"
+        className="absolute left-[20%] top-[-10px] w-8 opacity-70 transform rotate-[15deg] animate-pulse"
+      />
+      <img
+        src={image}
+        alt="star"
+        className="absolute right-[25%] bottom-0 w-5 opacity-50 transform -rotate-[10deg] animate-pulse"
+      />
+      <h2 className="faculty text-white font-bold text-2xl md:text-3xl relative inline-block">
+        <span className="relative">
+          {title}
+          <div className="absolute h-1 w-[70%] bg-gradient-to-r from-red-500 to-red-600 bottom-[-8px] left-[15%]"></div>
+        </span>
+      </h2>
+    </div>
+  );
 
   return (
-    <>
-    <div className='bg-black'>
-      <nav className="navbar navbar-expand-lg d-flex">
-        <div className="container-fluid">
-          <img className='mx-2'id='img1' src={image}/>
-          <button className="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className='d-flex justify-content-center'>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 text-center">
-              <li className="nav-item">
-                <a className="nav-link text-light mx-3 fs-5" href="#">Home</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link text-light mx-3 fs-5" href="#">Gallery</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link text-light mx-3 fs-5" href="#">Sponsors</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link text-light mx-3 fs-5" href="#">Humans</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link text-light mx-3 fs-5" href="#">FAQs</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link text-light mx-3 fs-5" href="#">Contact Us</a>
-              </li>
-            </ul>
-          </div>
-          </div>
-          <form className="d-flex" role="search">
-            <button className="btn btn-danger px-4" type="submit" onClick={handleRegisterClick}>Register</button>
-          </form>
+    <div className="bg-black min-h-screen">
+      <div className="w-full">
+        {/* Hero section with parallax effect */}
+        <div
+          className="relative overflow-hidden flex items-center justify-center h-[50vh]"
+          style={{
+            backgroundImage:
+              "linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%)",
+            backgroundSize: "cover",
+          }}
+        >
+          <div
+            className="absolute top-0 left-0 w-full h-full"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(220,53,69,0.3) 0%, rgba(0,0,0,0.9) 70%)",
+              zIndex: 1,
+            }}
+          ></div>
+
+          <div className="absolute top-0 left-0 w-full h-full opacity-20 bg-[url('/matrixLogo.png')] bg-center bg-no-repeat bg-contain z-1 blur-sm"></div>
+
+          <img
+            src={image}
+            alt="star"
+            className="absolute z-[2]"
+            style={{
+              left: "calc(10% - 60px)",
+              top: "calc(30% - 60px)",
+              width: "40px",
+              opacity: 0.7,
+              transform: `rotate(${scrollY * 0.1}deg)`,
+              pointerEvents: "none",
+            }}
+          />
+
+          <img
+            src={image}
+            alt="star"
+            className="absolute z-[2]"
+            style={{
+              right: "calc(30% - 50px)",
+              bottom: "calc(30% - 50px)",
+              width: "25px",
+              opacity: 0.5,
+              transform: `rotate(${-scrollY * 0.05}deg)`,
+            }}
+          />
+
+          <motion.div
+            ref={(el) => (sectionRefs.current["hero"] = el)}
+            className="text-center relative z-[3]"
+            initial={{ filter: "blur(10px)", opacity: 0, y: -50 }}
+            animate={
+              inView["hero"]
+                ? { filter: "blur(0px)", opacity: 1, y: 0 }
+                : { filter: "blur(10px)", opacity: 0, y: -50 }
+            }
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <h1 className="text-red-600 font-bold text-5xl md:text-6xl mb-0">
+              The Team Behind the Vibe
+            </h1>
+            <div className="flex justify-center">
+              <div className="bg-gradient-to-r from-red-500 to-red-600 h-1 w-20 my-4"></div>
+            </div>
+            <p className="text-white text-lg md:text-xl mx-auto max-w-4xl px-4 text-balance">
+              Meet the faculty advisors students, designers, and developers
+              turning ideas into action. Organizers, mentors, and the extended
+              Matrix family — working together to make{" "}
+              <span className="text-red-500 font-bold">VIBE CODE 2025</span> a
+              reality.
+            </p>
+          </motion.div>
         </div>
-      </nav>
-        <h1 className='text-danger my-5 fw-bold fs-1 mx-5 text-center'>The Team Behind the Vibe</h1>
-        <p className='msg text-light fs-5 mx-5 text-center'> Meet the students, designers, and developers turning ideas into action. Organizers, mentors, and the extended Matrix family</p>
-        <div className='msg1 text-light fs-5 mx-5 text-center'> — working together to make <p className='msg11 text-danger d-inline-block'>VIBE CODE 2025</p> a reality.</div>
-      <h2 className='faculty text-light opacity-75 my-5 text-decoration-underline text-center fw-bold'>Faculty Advisors</h2>
-      <div className="row text-center d-flex justify-content-center mx-0 mt-5">
-        <div className="mb-3 w-auto">
-          <div className="card rounded-5 bg-secondary opacity-75">
-            <div>
-              <div className="card-body d-flex justify-content-evenly">
-              <img className='img2 rounded-circle mt-3' id='img2' src={logo}/>
-              <div className='d-flex align-items-end flex-column text-center'>
-                <div>
-                  <div className="fa-solid fa-envelope text-danger fs-3 mx-2 my-2"></div>
-                  <div className="fa-brands fa-linkedin text-danger fs-3"></div>
-                </div>
-                  <div className='text-black fw-bold mt-4'>John Smith,</div>
-                  <div className='text-black'>CEO and Founder</div>
-              </div>
+
+        <div className="container mx-auto py-12 px-4 relative">
+          <div className="absolute inset-0 bg-gradient-to-b from-red-600/5 via-transparent to-red-600/5 pointer-events-none"></div>
+          {/* Faculty Advisors Section */}
+          <motion.div
+            ref={(el) => (sectionRefs.current["faculty"] = el)}
+            initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
+            animate={
+              inView["faculty"]
+                ? { filter: "blur(0px)", opacity: 1, y: 0 }
+                : { filter: "blur(10px)", opacity: 0, y: 50 }
+            }
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+          >
+            <SectionHeading title="Faculty Advisors" />
+            <div className="relative">
+              <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-r from-black to-transparent z-10"></div>
+              <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-l from-black to-transparent z-10"></div>
+              <div
+                className="flex flex-row flex-nowrap overflow-x-auto py-8 px-3 mt-5 scrollbar-hide scroll-smooth justify-center md:justify-center"
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+              >
+                <TeamCard
+                  image={"https://randomuser.me/api/portraits/men/41.jpg"}
+                  name="Mr. ABC Sir"
+                  position="Professor, Computer Science"
+                  description="10+ years of experience in Computer Science education. Expert in AI and Machine Learning technologies."
+                />
+                <TeamCard
+                  image={"https://randomuser.me/api/portraits/women/68.jpg"}
+                  name="Mrs. Mamta Lambert"
+                  position="Associate Professor, IT"
+                  description="Specializes in Database Management Systems and Software Engineering with 8+ years of teaching experience."
+                />
+                <TeamCard
+                  image={"https://randomuser.me/api/portraits/men/32.jpg"}
+                  name="Mr. XYZ Sir"
+                  position="Assistant Professor, CS"
+                  description="Research focus on Cybersecurity and Cloud Computing. Active contributor to academic journals."
+                />
               </div>
             </div>
-            <hr className='mx-2 bg-black'></hr>
-            <p className='mx-5 text-left'>10+ years of experience in digital marketing. Expertise in SEO, PPC, and content strategy</p>
-          </div>
-        </div>
-        <div className="mb-3 w-auto">
-          <div className="card rounded-5 bg-secondary opacity-75">
-            <div>
-              <div className="card-body d-flex justify-content-evenly">
-              <img className='img2 rounded-circle mt-3' id='img2' src={logo}/>
-              <div className='d-flex align-items-end flex-column text-center'>
-                <div>
-                  <div className="fa-solid fa-envelope text-danger fs-3 mx-2 my-2"></div>
-                  <div className="fa-brands fa-linkedin text-danger fs-3"></div>
-                </div>
-                  <div className='text-black fw-bold mt-4'>John Smith,</div>
-                  <div className='text-black'>CEO and Founder</div>
-              </div>
-              </div>
-            </div>
-            <hr className='mx-2 bg-black'></hr>
-            <p className='mx-5 text-left w-80'>10+ years of experience in digital marketing. Expertise in SEO, PPC, and content strategy</p>
-          </div>
-        </div>
-        <div className="mb-3 w-auto">
-          <div className="card rounded-5 bg-secondary opacity-75">
-            <div>
-              <div className="card-body d-flex justify-content-evenly">
-              <img className='img2 rounded-circle mt-3' id='img2' src={logo}/>
-              <div className='d-flex align-items-end flex-column text-center'>
-                <div>
-                  <div className="fa-solid fa-envelope text-danger fs-3 mx-2 my-2"></div>
-                  <div className="fa-brands fa-linkedin text-danger fs-3"></div>
-                </div>
-                  <div className='text-black fw-bold mt-4'>John Smith,</div>
-                  <div className='text-black'>CEO and Founder</div>
-              </div>
+          </motion.div>
+
+          {/* Student Coordinators Section */}
+          <motion.div
+            ref={(el) => (sectionRefs.current["coordinators"] = el)}
+            initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
+            animate={
+              inView["coordinators"]
+                ? { filter: "blur(0px)", opacity: 1, y: 0 }
+                : { filter: "blur(10px)", opacity: 0, y: 50 }
+            }
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
+          >
+            <SectionHeading title="Student Coordinators" />
+            <div className="relative">
+              <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-r from-black to-transparent z-10"></div>
+              <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-l from-black to-transparent z-10"></div>
+              <div
+                className="flex flex-row flex-nowrap overflow-x-auto py-8 px-3 scrollbar-hide scroll-smooth justify-center md:justify-center"
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+              >
+                <TeamCard
+                  image={"https://randomuser.me/api/portraits/men/22.jpg"}
+                  name="Shivam Mishra"
+                  position="Lead Coordinator"
+                  description="Student at JEC and a member of MATRIX JEC. Specializes in event management and team coordination."
+                />
+                <TeamCard
+                  image={"https://randomuser.me/api/portraits/women/22.jpg"}
+                  name="Rishika Fulwani"
+                  position="Technical Coordinator"
+                  description="Student at JEC and a member of MATRIX JEC. Handles technical aspects of events and workshops."
+                />
               </div>
             </div>
-            <hr className='mx-2 bg-black'></hr>
-            <p className='mx-5 text-left w-80'>10+ years of experience in digital marketing. Expertise in SEO, PPC, and content strategy</p>
-          </div>
-        </div>
-        <div className="mb-3 w-auto">
-          <div className="card rounded-5 bg-secondary opacity-75">
-            <div>
-              <div className="card-body d-flex justify-content-evenly">
-              <img className='img2 rounded-circle mt-3' id='img2' src={logo}/>
-              <div className='d-flex align-items-end flex-column text-center'>
-                <div>
-                  <div className="fa-solid fa-envelope text-danger fs-3 mx-2 my-2"></div>
-                  <div className="fa-brands fa-linkedin text-danger fs-3"></div>
-                </div>
-                  <div className='text-black fw-bold mt-4'>John Smith,</div>
-                  <div className='text-black'>CEO and Founder</div>
-              </div>
-              </div>
-            </div>
-            <hr className='mx-2 bg-black'></hr>
-            <p className='mx-5 text-left w-80'>10+ years of experience in digital marketing. Expertise in SEO, PPC, and content strategy</p>
-          </div>
-        </div>
-      </div> 
-      <h2 className='faculty text-light opacity-75 my-5 text-decoration-underline text-center fw-bold'>Student Coordinators</h2>
-      <div className="row text-center d-flex justify-content-center mx-0 mt-5">
-        <div className="mb-3 w-auto">
-          <div className="card rounded-5 bg-secondary opacity-75">
-            <div>
-              <div className="card-body d-flex justify-content-evenly">
-              <img className='img2 rounded-circle mt-3' id='img2' src={logo}/>
-              <div className='d-flex align-items-end flex-column text-center'>
-                <div>
-                  <div className="fa-solid fa-envelope text-danger fs-3 mx-2 my-2"></div>
-                  <div className="fa-brands fa-linkedin text-danger fs-3"></div>
-                </div>
-                  <div className='text-black fw-bold mt-4'>John Smith,</div>
-                  <div className='text-black'>CEO and Founder</div>
-              </div>
-              </div>
-            </div>
-            <hr className='mx-2 bg-black'></hr>
-            <p className='mx-5 text-left w-80'>10+ years of experience in digital marketing. Expertise in SEO, PPC, and content strategy</p>
-          </div>
-        </div>
-        <div className="mb-3 w-auto">
-          <div className="card rounded-5 bg-secondary opacity-75">
-            <div>
-              <div className="card-body d-flex justify-content-evenly">
-              <img className='img2 rounded-circle mt-3' id='img2' src={logo}/>
-              <div className='d-flex align-items-end flex-column text-center'>
-                <div>
-                  <div className="fa-solid fa-envelope text-danger fs-3 mx-2 my-2"></div>
-                  <div className="fa-brands fa-linkedin text-danger fs-3"></div>
-                </div>
-                  <div className='text-black fw-bold mt-4'>John Smith,</div>
-                  <div className='text-black'>CEO and Founder</div>
-              </div>
-              </div>
-            </div>
-            <hr className='mx-2 bg-black'></hr>
-            <p className='mx-5 text-left w-80'>10+ years of experience in digital marketing. Expertise in SEO, PPC, and content strategy</p>
-          </div>
-        </div>
-        <div className="mb-3 w-auto">
-          <div className="card rounded-5 bg-secondary opacity-75">
-            <div>
-              <div className="card-body d-flex justify-content-evenly">
-              <img className='img2 rounded-circle mt-3' id='img2' src={logo}/>
-              <div className='d-flex align-items-end flex-column text-center'>
-                <div>
-                  <div className="fa-solid fa-envelope text-danger fs-3 mx-2 my-2"></div>
-                  <div className="fa-brands fa-linkedin text-danger fs-3"></div>
-                </div>
-                  <div className='text-black fw-bold mt-4'>John Smith,</div>
-                  <div className='text-black'>CEO and Founder</div>
-              </div>
+          </motion.div>
+
+          {/* Volunteers Section */}
+          <motion.div
+            ref={(el) => (sectionRefs.current["volunteers"] = el)}
+            initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
+            animate={
+              inView["volunteers"]
+                ? { filter: "blur(0px)", opacity: 1, y: 0 }
+                : { filter: "blur(10px)", opacity: 0, y: 50 }
+            }
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
+          >
+            <SectionHeading title="Volunteers" />
+            <div className="relative">
+              <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-r from-black to-transparent z-10"></div>
+              <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-l from-black to-transparent z-10"></div>
+              <div
+                className="flex flex-row flex-nowrap overflow-x-auto py-8 px-3 scrollbar-hide scroll-smooth justify-center md:justify-center"
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+              >
+                <TeamCard
+                  image={"https://randomuser.me/api/portraits/men/55.jpg"}
+                  name="Suraj Dubey"
+                  position="Member, MATRIX JEC"
+                  description="Student at JEC and a member of MATRIX JEC."
+                />
+                <TeamCard
+                  image={"https://randomuser.me/api/portraits/men/43.jpg"}
+                  name="Aaditya Patel"
+                  position="Member, MATRIX JEC"
+                  description="Student at JEC and a member of MATRIX JEC."
+                />
+                <TeamCard
+                  image={"https://randomuser.me/api/portraits/men/33.jpg"}
+                  name="Ishaan Singh"
+                  position="Member, MATRIX JEC"
+                  description="Student at JEC and a member of MATRIX JEC."
+                />
+                <TeamCard
+                  image={"https://randomuser.me/api/portraits/men/28.jpg"}
+                  name="Naman Yadav"
+                  position="Member, MATRIX JEC"
+                  description="Student at JEC and a member of MATRIX JEC."
+                />
+                <TeamCard
+                  image={"https://randomuser.me/api/portraits/women/28.jpg"}
+                  name="Sariska"
+                  position="Member, MATRIX JEC"
+                  description="Student at JEC and a member of MATRIX JEC."
+                />
+                <TeamCard
+                  image={"https://randomuser.me/api/portraits/women/43.jpg"}
+                  name="Akansha"
+                  position="Member, MATRIX JEC"
+                  description="Student at JEC and a member of MATRIX JEC."
+                />
               </div>
             </div>
-            <hr className='mx-2 bg-black'></hr>
-            <p className='mx-5 text-left w-80'>10+ years of experience in digital marketing. Expertise in SEO, PPC, and content strategy</p>
-          </div>
-        </div>
-      </div> 
-      <h2 className='faculty text-light opacity-75 my-5 text-decoration-underline text-center fw-bold'>Volunteers</h2>
-      <div className="row text-center d-flex justify-content-center mx-0 mt-5">
-        <div className="mb-3 w-auto">
-          <div className="card rounded-5 bg-secondary opacity-75">
-            <div>
-              <div className="card-body d-flex justify-content-evenly">
-              <img className='img2 rounded-circle mt-3' id='img2' src={logo}/>
-              <div className='d-flex align-items-end flex-column text-center'>
-                <div>
-                  <div className="fa-solid fa-envelope text-danger fs-3 mx-2 my-2"></div>
-                  <div className="fa-brands fa-linkedin text-danger fs-3"></div>
-                </div>
-                  <div className='text-black fw-bold mt-4'>Suraj Dubey,</div>
-                  <div className='text-black'>CEO and Founder</div>
-              </div>
-              </div>
-            </div>
-            <hr className='mx-2 bg-black'></hr>
-            <p className='mx-5 text-left'>Student at JEC and a member of MATRIX JEC.</p>
-          </div>
-        </div>
-        <div className="mb-3 w-auto">
-          <div className="card rounded-5 bg-secondary opacity-75">
-            <div>
-              <div className="card-body d-flex justify-content-evenly">
-              <img className='img2 rounded-circle mt-3' id='img2' src={logo}/>
-              <div className='d-flex align-items-end flex-column text-center'>
-                <div>
-                  <div className="fa-solid fa-envelope text-danger fs-3 mx-2 my-2"></div>
-                  <div className="fa-brands fa-linkedin text-danger fs-3"></div>
-                </div>
-                  <div className='text-black fw-bold mt-4'>Aaditya Patel,</div>
-                  <div className='text-black'>CEO and Founder</div>
-              </div>
-              </div>
-            </div>
-            <hr className='mx-2 bg-black'></hr>
-            <p className='mx-5 text-left'>Student at JEC and a member of MATRIX JEC.</p>
-          </div>
-        </div>
-        <div className="mb-3 w-auto">
-          <div className="card rounded-5 bg-secondary opacity-75">
-            <div>
-              <div className="card-body d-flex justify-content-evenly">
-              <img className='img2 rounded-circle mt-3' id='img2' src={logo}/>
-              <div className='d-flex align-items-end flex-column text-center'>
-                <div>
-                  <div className="fa-solid fa-envelope text-danger fs-3 mx-2 my-2"></div>
-                  <div className="fa-brands fa-linkedin text-danger fs-3"></div>
-                </div>
-                  <div className='text-black fw-bold mt-4'>Ishaan Singh,</div>
-                  <div className='text-black'>CEO and Founder</div>
-              </div>
+          </motion.div>
+
+          {/* Domain Heads Section */}
+          <motion.div
+            ref={(el) => (sectionRefs.current["domain"] = el)}
+            initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
+            animate={
+              inView["domain"]
+                ? { filter: "blur(0px)", opacity: 1, y: 0 }
+                : { filter: "blur(10px)", opacity: 0, y: 50 }
+            }
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
+          >
+            <SectionHeading title="Domain Heads" />
+            <div className="relative">
+              <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-r from-black to-transparent z-10"></div>
+              <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-l from-black to-transparent z-10"></div>
+              <div
+                className="flex flex-row flex-nowrap overflow-x-auto py-8 px-3 scrollbar-hide scroll-smooth justify-center md:justify-center"
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+              >
+                <TeamCard
+                  image={"https://randomuser.me/api/portraits/men/11.jpg"}
+                  name="John Smith"
+                  position="Web Development Lead"
+                  description="Expert in frontend and backend technologies with focus on React and Node.js."
+                />
+                <TeamCard
+                  image={"https://randomuser.me/api/portraits/women/11.jpg"}
+                  name="Jane Doe"
+                  position="UI/UX Design Lead"
+                  description="Passionate about creating intuitive user experiences and visually appealing interfaces."
+                />
+                <TeamCard
+                  image={"https://randomuser.me/api/portraits/men/15.jpg"}
+                  name="Alex Johnson"
+                  position="Competitive Programming Lead"
+                  description="Experienced competitive programmer with multiple hackathon wins."
+                />
+                <TeamCard
+                  image={"https://randomuser.me/api/portraits/women/15.jpg"}
+                  name="Sarah Williams"
+                  position="AI/ML Lead"
+                  description="Researcher in artificial intelligence and machine learning applications."
+                />
               </div>
             </div>
-            <hr className='mx-2 bg-black'></hr>
-            <p className='mx-5 text-left'>Student at JEC and a member of MATRIX JEC.</p>
-          </div>
-        </div>
-        <div className="mb-3 w-auto">
-          <div className="card rounded-5 bg-secondary opacity-75">
-            <div>
-              <div className="card-body d-flex justify-content-evenly">
-              <img className='img2 rounded-circle mt-3' id='img2' src={logo}/>
-              <div className='d-flex align-items-end flex-column text-center'>
-                <div>
-                  <div className="fa-solid fa-envelope text-danger fs-3 mx-2 my-2"></div>
-                  <div className="fa-brands fa-linkedin text-danger fs-3"></div>
-                </div>
-                  <div className='text-black fw-bold mt-4'>Naman Yadav,</div>
-                  <div className='text-black'>CEO and Founder</div>
-              </div>
-              </div>
-            </div>
-            <hr className='mx-2 bg-black'></hr>
-            <p className='mx-5 text-left w-80'>Student at JEC and a member of MATRIX JEC.</p>
-          </div>
-        </div>
-        <div className="mb-3 w-auto">
-          <div className="card rounded-5 bg-secondary opacity-75">
-            <div>
-              <div className="card-body d-flex justify-content-evenly">
-              <img className='img2 rounded-circle mt-3' id='img2' src={logo}/>
-              <div className='d-flex align-items-end flex-column text-center'>
-                <div>
-                  <div className="fa-solid fa-envelope text-danger fs-3 mx-2 my-2"></div>
-                  <div className="fa-brands fa-linkedin text-danger fs-3"></div>
-                </div>
-                  <div className='text-black fw-bold mt-4'>Sariska,</div>
-                  <div className='text-black'>CEO and Founder</div>
-              </div>
-              </div>
-            </div>
-            <hr className='mx-2 bg-black'></hr>
-            <p className='mx-5 text-left w-80'>Student at JEC and a member of MATRIX JEC.</p>
-          </div>
-        </div>
-        <div className="mb-3 w-auto">
-          <div className="card rounded-5 bg-secondary opacity-75">
-            <div>
-              <div className="card-body d-flex justify-content-evenly">
-              <img className='img2 rounded-circle mt-3' id='img2' src={logo}/>
-              <div className='d-flex align-items-end flex-column text-center'>
-                <div>
-                  <div className="fa-solid fa-envelope text-danger fs-3 mx-2 my-2"></div>
-                  <div className="fa-brands fa-linkedin text-danger fs-3"></div>
-                </div>
-                  <div className='text-black fw-bold mt-4'>Akansha,</div>
-                  <div className='text-black'>CEO and Founder</div>
-              </div>
+          </motion.div>
+
+          {/* Website Developers Section */}
+          <motion.div
+            ref={(el) => (sectionRefs.current["developers"] = el)}
+            initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
+            animate={
+              inView["developers"]
+                ? { filter: "blur(0px)", opacity: 1, y: 0 }
+                : { filter: "blur(10px)", opacity: 0, y: 50 }
+            }
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }}
+          >
+            <SectionHeading title="Website Developers" />
+            <div className="relative">
+              <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-r from-black to-transparent z-10"></div>
+              <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-l from-black to-transparent z-10"></div>
+              <div
+                className="flex flex-row flex-nowrap overflow-x-auto py-8 px-3 scrollbar-hide scroll-smooth justify-center md:justify-center"
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+              >
+                <TeamCard
+                  image={"https://randomuser.me/api/portraits/men/22.jpg"}
+                  name="Shivam Mishra"
+                  position="Student Technical Council"
+                  description="Student at JEC and a member of MATRIX JEC."
+                />
+                <TeamCard
+                  image={"https://randomuser.me/api/portraits/women/65.jpg"}
+                  name="Anshika Gupta"
+                  position="Student Technical Council"
+                  description="Student at JEC and a member of MATRIX JEC."
+                />
+                <TeamCard
+                  image={"https://randomuser.me/api/portraits/women/63.jpg"}
+                  name="Monal Jain"
+                  position="Student Technical Council"
+                  description="Student at JEC and a member of MATRIX JEC."
+                />
+                <TeamCard
+                  image={"https://randomuser.me/api/portraits/men/63.jpg"}
+                  name="Deepesh Gupta"
+                  position="Student Technical Council"
+                  description="Student at JEC and a member of MATRIX JEC."
+                />
               </div>
             </div>
-            <hr className='mx-2 bg-black'></hr>
-            <p className='mx-5 text-left w-80'>Student at JEC and a member of MATRIX JEC.</p>
-          </div>
-        </div>
-      </div> 
-      <h2 className='faculty text-light opacity-75 my-5 text-decoration-underline text-center fw-bold'>Domain Heads</h2>
-      <div className="row text-center d-flex justify-content-center mx-0 mt-5">
-        <div className="mb-3 w-auto">
-          <div className="card rounded-5 bg-secondary opacity-75">
-            <div>
-              <div className="card-body d-flex justify-content-evenly">
-              <img className='img2 rounded-circle mt-3' id='img2' src={logo}/>
-              <div className='d-flex align-items-end flex-column text-center'>
-                <div>
-                  <div className="fa-solid fa-envelope text-danger fs-3 mx-2 my-2"></div>
-                  <div className="fa-brands fa-linkedin text-danger fs-3"></div>
-                </div>
-                  <div className='text-black fw-bold mt-4'>John Smith,</div>
-                  <div className='text-black'>CEO and Founder</div>
-              </div>
-              </div>
-            </div>
-            <hr className='mx-2 bg-black'></hr>
-            <p className='mx-5 text-left'>10+ years of experience in digital marketing. Expertise in SEO, PPC, and content strategy</p>
-          </div>
-        </div>
-        <div className="mb-3 w-auto">
-          <div className="card rounded-5 bg-secondary opacity-75">
-            <div>
-              <div className="card-body d-flex justify-content-evenly">
-              <img className='img2 rounded-circle mt-3' id='img2' src={logo}/>
-              <div className='d-flex align-items-end flex-column text-center'>
-                <div>
-                  <div className="fa-solid fa-envelope text-danger fs-3 mx-2 my-2"></div>
-                  <div className="fa-brands fa-linkedin text-danger fs-3"></div>
-                </div>
-                  <div className='text-black fw-bold mt-4'>John Smith,</div>
-                  <div className='text-black'>CEO and Founder</div>
-              </div>
+          </motion.div>
+
+          {/* Matrix Logo */}
+          <motion.div
+            ref={(el) => (sectionRefs.current["footer"] = el)}
+            initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
+            animate={
+              inView["footer"]
+                ? { filter: "blur(0px)", opacity: 1, y: 0 }
+                : { filter: "blur(10px)", opacity: 0, y: 50 }
+            }
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.7 }}
+          >
+            <div className="flex justify-center items-center mt-16 mb-8">
+              <div className="relative">
+                <img
+                  src={matrix}
+                  alt="Matrix Logo"
+                  className="w-32 h-32 opacity-70 hover:opacity-100 transition-opacity duration-300"
+                />
+                <div className="absolute -inset-2 rounded-full bg-red-500/5 blur-xl"></div>
               </div>
             </div>
-            <hr className='mx-2 bg-black'></hr>
-            <p className='mx-5 text-left w-80'>10+ years of experience in digital marketing. Expertise in SEO, PPC, and content strategy</p>
-          </div>
-        </div>
-        <div className="mb-3 w-auto">
-          <div className="card rounded-5 bg-secondary opacity-75">
-            <div>
-              <div className="card-body d-flex justify-content-evenly">
-              <img className='img2 rounded-circle mt-3' id='img2' src={logo}/>
-              <div className='d-flex align-items-end flex-column text-center'>
-                <div>
-                  <div className="fa-solid fa-envelope text-danger fs-3 mx-2 my-2"></div>
-                  <div className="fa-brands fa-linkedin text-danger fs-3"></div>
-                </div>
-                  <div className='text-black fw-bold mt-4'>John Smith,</div>
-                  <div className='text-black'>CEO and Founder</div>
-              </div>
-              </div>
-            </div>
-            <hr className='mx-2 bg-black'></hr>
-            <p className='mx-5 text-left w-80'>10+ years of experience in digital marketing. Expertise in SEO, PPC, and content strategy</p>
-          </div>
-        </div>
-        <div className="mb-3 w-auto">
-          <div className="card rounded-5 bg-secondary opacity-75">
-            <div>
-              <div className="card-body d-flex justify-content-evenly">
-              <img className='img2 rounded-circle mt-3' id='img2' src={logo}/>
-              <div className='d-flex align-items-end flex-column text-center'>
-                <div>
-                  <div className="fa-solid fa-envelope text-danger fs-3 mx-2 my-2"></div>
-                  <div className="fa-brands fa-linkedin text-danger fs-3"></div>
-                </div>
-                  <div className='text-black fw-bold mt-4'>John Smith,</div>
-                  <div className='text-black'>CEO and Founder</div>
-              </div>
-              </div>
-            </div>
-            <hr className='mx-2 bg-black'></hr>
-            <p className='mx-5 text-left w-80'>10+ years of experience in digital marketing. Expertise in SEO, PPC, and content strategy</p>
-          </div>
-        </div>
-      </div> 
-      <h2 className='faculty text-light opacity-75 my-5 text-decoration-underline text-center fw-bold'>Website Developers</h2>
-      <div className="row text-center d-flex justify-content-center mx-0 mt-5">
-        <div className="mb-3 w-auto">
-          <div className="card rounded-5 bg-secondary opacity-75">
-            <div>
-              <div className="card-body d-flex justify-content-evenly">
-              <img className='img2 rounded-circle mt-3' id='img2' src={logo}/>
-              <div className='d-flex align-items-end flex-column text-center'>
-                <div>
-                  <div className="fa-solid fa-envelope text-danger fs-3 mx-2 my-2"></div>
-                  <div className="fa-brands fa-linkedin text-danger fs-3"></div>
-                </div>
-                  <div className='text-black fw-bold mt-4'>Shivam Mishra,</div>
-                  <div className='text-black'>Student Technical Council</div>
-              </div>
-              </div>
-            </div>
-            <hr className='mx-2 bg-black'></hr>
-            <p className='mx-5 text-left'>Student at JEC and a member of MATRIX JEC.</p>
-          </div>
-        </div>
-        <div className="mb-3 w-auto">
-          <div className="card rounded-5 bg-secondary opacity-75">
-            <div>
-              <div className="card-body d-flex justify-content-evenly">
-              <img className='img2 rounded-circle mt-3' id='img2' src={logo}/>
-              <div className='d-flex align-items-end flex-column text-center'>
-                <div>
-                  <div className="fa-solid fa-envelope text-danger fs-3 mx-2 my-2"></div>
-                  <div className="fa-brands fa-linkedin text-danger fs-3"></div>
-                </div>
-                  <div className='text-black fw-bold mt-4'>Anshika Gupta,</div>
-                  <div className='text-black'>Student Technical Council</div>
-              </div>
-              </div>
-            </div>
-            <hr className='mx-2 bg-black'></hr>
-            <p className='mx-5 text-left w-80'>Student at JEC and a member of MATRIX JEC.</p>
-          </div>
-        </div>
-        <div className="mb-3 w-auto">
-          <div className="card rounded-5 bg-secondary opacity-75">
-            <div>
-              <div className="card-body d-flex justify-content-evenly">
-              <img className='img2 rounded-circle mt-3' id='img2' src={logo}/>
-              <div className='d-flex align-items-end flex-column text-center'>
-                <div>
-                  <div className="fa-solid fa-envelope text-danger fs-3 mx-2 my-2"></div>
-                  <div className="fa-brands fa-linkedin text-danger fs-3"></div>
-                </div>
-                  <div className='text-black fw-bold mt-4'>Monal Jain,</div>
-                  <div className='text-black'>Student Technical Council</div>
-              </div>
-              </div>
-            </div>
-            <hr className='mx-2 bg-black'></hr>
-            <p className='mx-5 text-left w-80'>Student at JEC and a member of MATRIX JEC.</p>
-          </div>
-        </div>
-        <div className="mb-3 w-auto">
-          <div className="card rounded-5 bg-secondary opacity-75">
-            <div>
-              <div className="card-body d-flex justify-content-evenly">
-              <img className='img2 rounded-circle mt-3' id='img2' src={logo}/>
-              <div className='d-flex align-items-end flex-column text-center'>
-                <div>
-                  <div className="fa-solid fa-envelope text-danger fs-3 mx-2 my-2"></div>
-                  <div className="fa-brands fa-linkedin text-danger fs-3"></div>
-                </div>
-                  <div className='text-black fw-bold mt-4'>Deepesh Gupta,</div>
-                  <div className='text-black'>Student Technical Council</div>
-              </div>
-              </div>
-            </div>
-            <hr className='mx-2 bg-black'></hr>
-            <p className='mx-5 text-left w-80'>Student at JEC and a member of MATRIX JEC.</p>
-          </div>
-        </div>
-      </div> 
-      <div className='d-flex justify-content-between py-5'>
-        <div>
-        <div className='d-flex'>
-          <img className='mx-4 mt-5'id='img4' src={matrix}/>
-          <div>
-            <div className='text-light fw-bold fs-4 mt-5'>Building the</div>
-            <div className='text-danger fw-bold fs-4'>Future together.</div>
-          </div>
-        </div>
-        <div className='text-light fw-bold mx-4 mt-5'> &copy; Matrix JEC, All rights are reserved</div>
-        </div>
-        <div>
-          <div className='text-light fw-bold mx-4 fs-4 text-center mt-5'>Connect with Us</div>
-          <div className='d-flex fs-5 ms-5 mt-3'>
-                <a href="#"><i className="fa-brands fa-x-twitter text-secondary mx-2"></i></a>
-                <a href="#"><i className="fa-brands fa-instagram text-secondary mx-2"></i></a>
-                <a href="#"><i className="fa-brands fa-github text-secondary mx-2"></i></a>
-                <a href="#"><i className="fa-brands fa-linkedin text-secondary mx-2"></i></a>
-            </div>
+
+            <p className="text-center text-gray-400 text-sm mb-8">
+              Proudly organized by{" "}
+              <span className="text-red-500">MATRIX JEC</span> - The Technical
+              Society of JEC
+            </p>
+          </motion.div>
         </div>
       </div>
-    </div> 
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default Humans
+export default Humans;
