@@ -66,6 +66,7 @@ const Register = () => {
 
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false); // ✅ success state
 
   const updateFormData = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -109,7 +110,8 @@ const Register = () => {
         ...formData,
         timestamp: Timestamp.now(),
       });
-      
+
+      // Reset state
       setFormData({
         teamsize: "",
         teamName: "",
@@ -128,7 +130,11 @@ const Register = () => {
         teamGithub: "",
         teamLinkdin: ""
       });
+
       setError({});
+      setSuccess(true); // ✅ show success
+      setTimeout(() => setSuccess(false), 5000); // auto-hide after 5s
+
     } catch (err) {
       console.error(err);
       alert("Error submitting form. Please try again.");
@@ -138,29 +144,34 @@ const Register = () => {
   };
 
   return (
-    <section className=' min-w-fit h-fit flex items-center justify-center pt-4'>
+    <section className='min-w-fit h-fit flex items-center justify-center pt-4'>
       <form className='rounded-xl m-2 flex flex-col items-center gap-4 font-poppins py-4 px-8 bg-[#1A1A1A]'>
         <h1 className='font-semibold text-3xl text-[#FF0105]'>Register Now</h1>
 
-        <div className='grid gri'>
-          <div className=' col-span-2 grid grid-cols-1 ms:grid-cols-2 gap-6'>
+        {success && (
+          <div className='text-green-400 font-medium text-md text-center mb-2 transition-all duration-300'>
+            Registration successful!
+          </div>
+        )}
 
-          {inputFieldList.map((ele) => (
-            <InputField
-            key={ele.name}
-            {...ele}
-            value={formData[ele.name]}
-            onChange={
-              ele.dropdown
-              ? (value) => updateFormData(ele.name, value)
-              : (e) => updateFormData(ele.name, e.target.value)
-            }
-            error={error[ele.name]}
-            />
-          ))}
+        <div className='grid gri'>
+          <div className='col-span-2 grid grid-cols-1 ms:grid-cols-2 gap-6'>
+            {inputFieldList.map((ele) => (
+              <InputField
+                key={ele.name}
+                {...ele}
+                value={formData[ele.name]}
+                onChange={
+                  ele.dropdown
+                    ? (value) => updateFormData(ele.name, value)
+                    : (e) => updateFormData(ele.name, e.target.value)
+                }
+                error={error[ele.name]}
+              />
+            ))}
           </div>
 
-          {/* Conditional Rendering of Teammate Fields */}
+          {/* Team Mate Fields */}
           <div className={`transition-all duration-500 mt-6 ease-in-out overflow-hidden col-span-2 grid grid-cols-1 ms:grid-cols-2 gap-6 ${formData.teamsize === "Dynamic Duo" ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
             {teamMateFields.map((ele) => (
               <InputField
@@ -176,7 +187,6 @@ const Register = () => {
               />
             ))}
           </div>
-
         </div>
 
         <button

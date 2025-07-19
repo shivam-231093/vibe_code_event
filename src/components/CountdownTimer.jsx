@@ -12,9 +12,9 @@ const CountdownTimer = () => {
         days,
         isRunning,
         start,
-    } = useTimer({ expiryTimestamp: new Date("2025-07-25T00:00:00"), onExpire: () => console.warn('onExpire called'), interval: 20 });
+    } = useTimer({ expiryTimestamp: new Date("2025-07-25T11:00:00"), onExpire: () => console.warn('onExpire called'), interval: 20 });
     const clock = (days > 0)
-        ? { labels: ["DAYS", "HOURS", "MIN"], values: [days, hours, minutes] }
+        ? { labels: ["DAYS", "HOURS", "MIN","SEC"], values: [days, hours, minutes,seconds] }
         : {labels: ["HOURS", "MIN", "SEC"], values: [hours, minutes, seconds]}
 
     return (

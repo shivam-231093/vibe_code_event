@@ -77,7 +77,7 @@ const BlurElement = ({
   return (
     <div
       ref={ref}
-      className={className}
+      className={`${className} z-0`}
       style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}
     >
       {elements.map((el, index) => {
@@ -92,7 +92,7 @@ const BlurElement = ({
         return (
           <motion.div
             key={index}
-            className="inline-block will-change-[transform,filter,opacity]"
+            className="inline-block z-0 will-change-[transform,filter,opacity]"
             initial={fromSnapshot}
             animate={inView ? animateKeyframes : fromSnapshot}
             transition={transition}

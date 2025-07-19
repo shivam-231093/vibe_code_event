@@ -28,14 +28,14 @@ export default function Contact() {
                 <div>
                     <div className='text-[#FF0105] font-[600] text-2xl'>CONTACT US</div>
                     <br/>
-                    <div>+916267xxxxxx</div>
+                    <div>+91 9174563894</div>
                 </div>
                 <div>
-                    <div className='text-[#FF0105] font-[600] text-2xl'>
+                    <div className='text-[#FF0105]  font-[600] text-2xl'>
                         EVENT LOCATION
                     </div>
                     <br/>
-                    <div>Jabalpur Engineering College </div>
+                    <div className='ms:w-[15vw]'>2nd floor, IT lab IT Building,Jabalpur Engineering College </div>
                 </div>
                 <div>
                     <div className='text-[#FF0105] font-[600] text-2xl'>EMAIL</div>
@@ -43,14 +43,10 @@ export default function Contact() {
                     <div>team.matrix.jec@gmail.com</div>
                 </div>
                 <div>
-                    <div className='text-[#FF0105] font-[600] text-2xl'>FOLLOW US</div>
+                    <div className='text-[#FF0105] font-[600] text-2xl'></div>
                     <br/>
                     <div className='ml-4 flex gap-4 '>
-                        <RiFacebookFill className='cursor-pointer bg-white rounded-full w-5 h-5 text-[#1A1A1A]'/>
-                        
-                        <TiSocialLinkedin className='cursor-pointer bg-white w-5 h-5 rounded p-0.5 text-[#1A1A1A]' />
-                        <FaInstagram className='cursor-pointer w-5 h-5 rounded text-white'  />
-                        <FaYoutube className='cursor-pointer bg-[#1A1A1A] w-5 h-5 rounded text-white' />
+                       
                     </div>
                     </div>
                 </div>
