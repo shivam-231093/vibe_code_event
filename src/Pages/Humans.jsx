@@ -113,7 +113,7 @@ const Humans = () => {
             <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-r from-black to-transparent z-10"></div>
             <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-l from-black to-transparent z-10"></div>
             <div
-              className="flex flex-row flex-nowrap overflow-x-auto py-8 px-3 mt-5 scrollbar-hide scroll-smooth justify-center md:justify-start"
+              className="flex flex-row flex-nowrap overflow-x-auto py-8 px-3 mt-5 scrollbar-hide scroll-smooth justify-center md:justify-center"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
               <TeamCard
@@ -143,7 +143,7 @@ const Humans = () => {
             <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-r from-black to-transparent z-10"></div>
             <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-l from-black to-transparent z-10"></div>
             <div
-              className="flex flex-row flex-nowrap overflow-x-auto py-8 px-3 scrollbar-hide scroll-smooth justify-center md:justify-start"
+              className="flex flex-row flex-nowrap overflow-x-auto py-8 px-3 scrollbar-hide scroll-smooth justify-center md:justify-center"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
               <TeamCard
@@ -167,7 +167,7 @@ const Humans = () => {
             <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-r from-black to-transparent z-10"></div>
             <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-l from-black to-transparent z-10"></div>
             <div
-              className="flex flex-row flex-nowrap overflow-x-auto py-8 px-3 scrollbar-hide scroll-smooth justify-center md:justify-start"
+              className="flex flex-row flex-nowrap overflow-x-auto py-8 px-3 scrollbar-hide scroll-smooth justify-center md:justify-center"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
               <TeamCard
@@ -215,7 +215,7 @@ const Humans = () => {
             <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-r from-black to-transparent z-10"></div>
             <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-l from-black to-transparent z-10"></div>
             <div
-              className="flex flex-row flex-nowrap overflow-x-auto py-8 px-3 scrollbar-hide scroll-smooth justify-center md:justify-start"
+              className="flex flex-row flex-nowrap overflow-x-auto py-8 px-3 scrollbar-hide scroll-smooth justify-center md:justify-center"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
               <TeamCard
@@ -251,7 +251,7 @@ const Humans = () => {
             <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-r from-black to-transparent z-10"></div>
             <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-l from-black to-transparent z-10"></div>
             <div
-              className="flex flex-row flex-nowrap overflow-x-auto py-8 px-3 scrollbar-hide scroll-smooth justify-center md:justify-start"
+              className="flex flex-row flex-nowrap overflow-x-auto py-8 px-3 scrollbar-hide scroll-smooth justify-center md:justify-center"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
               <TeamCard
