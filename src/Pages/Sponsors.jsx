@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import image from "/star.svg";
 import { FaInstagram, FaGlobe } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 // Sponsor Card Component
 const SponsorCard = ({ name, logo, type, description, website, instagram }) => {
@@ -52,6 +53,8 @@ const SponsorCard = ({ name, logo, type, description, website, instagram }) => {
 
 const Sponsors = () => {
   const [scrollY, setScrollY] = useState(0);
+  const [inView, setInView] = useState({});
+  const sectionRefs = useRef({});
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,6 +64,29 @@ const Sponsors = () => {
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    const observers = {};
+
+    Object.keys(sectionRefs.current).forEach((key) => {
+      if (sectionRefs.current[key]) {
+        observers[key] = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              setInView((prev) => ({ ...prev, [key]: true }));
+              observers[key].unobserve(sectionRefs.current[key]);
+            }
+          },
+          { threshold: 0.1, rootMargin: "0px" }
+        );
+        observers[key].observe(sectionRefs.current[key]);
+      }
+    });
+
+    return () => {
+      Object.values(observers).forEach((observer) => observer.disconnect());
     };
   }, []);
 
@@ -156,7 +182,17 @@ const Sponsors = () => {
             }}
           />
 
-          <div className="text-center relative z-[3]">
+          <motion.div
+            ref={(el) => (sectionRefs.current["hero"] = el)}
+            className="text-center relative z-[3]"
+            initial={{ filter: "blur(10px)", opacity: 0, y: -50 }}
+            animate={
+              inView["hero"]
+                ? { filter: "blur(0px)", opacity: 1, y: 0 }
+                : { filter: "blur(10px)", opacity: 0, y: -50 }
+            }
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
             <h1 className="text-red-600 font-bold text-5xl md:text-6xl mb-0">
               Our Sponsors
             </h1>
@@ -175,36 +211,66 @@ const Sponsors = () => {
               developers, fostering innovation, and building a stronger tech
               community.
             </p>
-          </div>
+          </motion.div>
         </div>
 
         <div className="container mx-auto py-10 px-4">
           {/* Title Sponsor */}
-          <SectionHeading title="Title Sponsor" />
-          <div className="flex justify-center">
-            {sponsors
-              .filter((sponsor) => sponsor.type === "Title Sponsor")
-              .map((sponsor, index) => (
-                <div className="w-full" key={index}>
-                  <SponsorCard {...sponsor} />
-                </div>
-              ))}
-          </div>
+          <motion.div
+            ref={(el) => (sectionRefs.current["title"] = el)}
+            initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
+            animate={
+              inView["title"]
+                ? { filter: "blur(0px)", opacity: 1, y: 0 }
+                : { filter: "blur(10px)", opacity: 0, y: 50 }
+            }
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+          >
+            <SectionHeading title="Title Sponsor" />
+            <div className="flex justify-center">
+              {sponsors
+                .filter((sponsor) => sponsor.type === "Title Sponsor")
+                .map((sponsor, index) => (
+                  <div className="w-full" key={index}>
+                    <SponsorCard {...sponsor} />
+                  </div>
+                ))}
+            </div>
+          </motion.div>
 
           {/* Sports Sponsor */}
-          <SectionHeading title="Sports Sponsor" />
-          <div className="flex justify-center">
-            {sponsors
-              .filter((sponsor) => sponsor.type === "Sports Sponsor")
-              .map((sponsor, index) => (
-                <div className="w-full" key={index}>
-                  <SponsorCard {...sponsor} />
-                </div>
-              ))}
-          </div>
+          <motion.div
+            ref={(el) => (sectionRefs.current["sports"] = el)}
+            initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
+            animate={
+              inView["sports"]
+                ? { filter: "blur(0px)", opacity: 1, y: 0 }
+                : { filter: "blur(10px)", opacity: 0, y: 50 }
+            }
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
+          >
+            <SectionHeading title="Sports Sponsor" />
+            <div className="flex justify-center">
+              {sponsors
+                .filter((sponsor) => sponsor.type === "Sports Sponsor")
+                .map((sponsor, index) => (
+                  <div className="w-full" key={index}>
+                    <SponsorCard {...sponsor} />
+                  </div>
+                ))}
+            </div>
+          </motion.div>
 
           {/* Sponsorship opportunities */}
-          <div
+          <motion.div
+            ref={(el) => (sectionRefs.current["cta"] = el)}
+            initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
+            animate={
+              inView["cta"]
+                ? { filter: "blur(0px)", opacity: 1, y: 0 }
+                : { filter: "blur(10px)", opacity: 0, y: 50 }
+            }
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
             className="text-center my-16 py-8 px-4 rounded-xl relative"
             style={{
               background:
@@ -225,7 +291,7 @@ const Sponsors = () => {
                 Contact for Sponsorship
               </button>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>
