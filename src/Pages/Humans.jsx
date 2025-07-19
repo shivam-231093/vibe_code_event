@@ -163,19 +163,19 @@ const Humans = () => {
                 style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
               >
                 <TeamCard
-                  image={"src/assets/sachinsir.jpeg"}
+                  image={"/sachinsir.jpeg"}
                   name="Mr.Sachindra Dubey"
                   position="Associate Professor, Computer Science"
                   description="8+ years of experience in Computer Science education"
                 />
                 <TeamCard
-                  image={"src/assets/mamtamam.jpeg"}
+                  image={"/mamtamam.jpeg"}
                   name="Dr. Mamta Lambert"
                   position="Head of Department, IT"
                   description="Specializes in Database Management Systems and Software Engineering with 8+ years of teaching experience."
                 />
                 <TeamCard
-                  image={"src/assets/abhilashsir.jpeg"}
+                  image={"/abhilashsir.jpeg"}
                   name="Mr. Abhilash Patel"
                   position="Assistant Professor, Mechatronics Engineering"
                   description="Research focus on Cybersecurity and Cloud Computing. Active contributor to academic journals."
@@ -204,13 +204,13 @@ const Humans = () => {
                 style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
               >
                 <TeamCard
-                  image={"src/assets/shivam.jpg"}
+                  image={"/shivam.jpg"}
                   name="Shivam Mishra"
                   position="Lead Coordinator"
                   description="Student at JEC and a member of MATRIX JEC. Specializes in event management, team coordination and technical aspects."
                 />
                 <TeamCard
-                  image={"src/assets/rishika.jpg"}
+                  image={"/rishika.jpg"}
                   name="Rishika Fulwani"
                   position="Co-Lead Coordinator"
                   description="Student at JEC and a member of MATRIX JEC. Handles technical aspects of events and workshops."
