@@ -44,21 +44,21 @@ const Humans = () => {
   }, []);
 
   const SectionHeading = ({ title }) => (
-    <div className="relative text-center my-10 py-4">
+    <div className="relative text-center my-6 sm:my-8 md:my-10 py-2 sm:py-3 md:py-4">
       <img
         src={image}
         alt="star"
-        className="absolute left-[20%] top-[-10px] w-8 opacity-70 transform rotate-[15deg] animate-pulse"
+        className="absolute left-[15%] sm:left-[20%] top-[-8px] sm:top-[-10px] w-6 sm:w-7 md:w-8 opacity-70 transform rotate-[15deg] animate-pulse"
       />
       <img
         src={image}
         alt="star"
-        className="absolute right-[25%] bottom-0 w-5 opacity-50 transform -rotate-[10deg] animate-pulse"
+        className="absolute right-[20%] sm:right-[25%] bottom-0 w-4 sm:w-5 opacity-50 transform -rotate-[10deg] animate-pulse"
       />
-      <h2 className="faculty text-white font-bold text-2xl md:text-3xl relative inline-block">
+      <h2 className="faculty text-white font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl relative inline-block">
         <span className="relative">
           {title}
-          <div className="absolute h-1 w-[70%] bg-gradient-to-r from-red-500 to-red-600 bottom-[-8px] left-[15%]"></div>
+          <div className="absolute h-1 w-[70%] bg-gradient-to-r from-red-500 to-red-600 bottom-[-6px] sm:bottom-[-8px] left-[15%]"></div>
         </span>
       </h2>
     </div>
@@ -69,7 +69,7 @@ const Humans = () => {
       <div className="w-full">
         {/* Hero section with parallax effect */}
         <div
-          className="relative overflow-hidden flex items-center justify-center h-[50vh]"
+          className="relative overflow-hidden flex items-center justify-center h-[40vh] sm:h-[45vh] md:h-[50vh] lg:h-[55vh]"
           style={{
             backgroundImage:
               "linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%)",
@@ -116,7 +116,7 @@ const Humans = () => {
 
           <motion.div
             ref={(el) => (sectionRefs.current["hero"] = el)}
-            className="text-center relative z-[3]"
+            className="text-center relative z-[3] px-4 sm:px-6 lg:px-8"
             initial={{ filter: "blur(10px)", opacity: 0, y: -50 }}
             animate={
               inView["hero"]
@@ -125,13 +125,13 @@ const Humans = () => {
             }
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <h1 className="text-red-600 font-bold text-5xl md:text-6xl mb-0">
+            <h1 className="text-red-600 font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-0 leading-tight">
               The Team Behind the Vibe
             </h1>
             <div className="flex justify-center">
-              <div className="bg-gradient-to-r from-red-500 to-red-600 h-1 w-20 my-4"></div>
+              <div className="bg-gradient-to-r from-red-500 to-red-600 h-1 w-16 sm:w-20 my-3 sm:my-4"></div>
             </div>
-            <p className="text-white text-lg md:text-xl mx-auto max-w-4xl px-4 text-balance">
+            <p className="text-white text-base sm:text-lg md:text-xl lg:text-xl mx-auto max-w-xs sm:max-w-2xl md:max-w-3xl lg:max-w-4xl px-2 sm:px-4 text-balance leading-relaxed">
               Meet the faculty advisors students, designers, and developers
               turning ideas into action. Organizers, mentors, and the extended
               Matrix family — working together to make{" "}
@@ -141,7 +141,7 @@ const Humans = () => {
           </motion.div>
         </div>
 
-        <div className="container mx-auto py-12 px-4 relative">
+        <div className="container mx-auto py-8 sm:py-10 md:py-12 px-4 sm:px-6 lg:px-8 relative">
           <div className="absolute inset-0 bg-gradient-to-b from-red-600/5 via-transparent to-red-600/5 pointer-events-none"></div>
           {/* Faculty Advisors Section */}
           <motion.div
@@ -156,10 +156,10 @@ const Humans = () => {
           >
             <SectionHeading title="Faculty Advisors" />
             <div className="relative">
-              <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-r from-black to-transparent z-10"></div>
-              <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-12 h-12 bg-gradient-to-l from-black to-transparent z-10"></div>
+              <div className="hidden sm:block absolute top-1/2 left-0 transform -translate-y-1/2 w-8 sm:w-10 md:w-12 h-8 sm:h-10 md:h-12 bg-gradient-to-r from-black to-transparent z-10"></div>
+              <div className="hidden sm:block absolute top-1/2 right-0 transform -translate-y-1/2 w-8 sm:w-10 md:w-12 h-8 sm:h-10 md:h-12 bg-gradient-to-l from-black to-transparent z-10"></div>
               <div
-                className="flex flex-row flex-nowrap overflow-x-auto py-8 px-3 mt-5 scrollbar-hide scroll-smooth justify-center md:justify-center"
+                className="flex flex-row flex-nowrap overflow-x-auto py-4 sm:py-6 md:py-8 px-2 sm:px-3 mt-3 sm:mt-4 md:mt-5 scrollbar-hide scroll-smooth justify-start sm:justify-center gap-4 sm:gap-6"
                 style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
               >
                 <TeamCard
@@ -383,18 +383,18 @@ const Humans = () => {
             }
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.7 }}
           >
-            <div className="flex justify-center items-center mt-16 mb-8">
+            <div className="flex justify-center items-center mt-12 sm:mt-14 md:mt-16 mb-6 sm:mb-8">
               <div className="relative">
                 <img
                   src={matrix}
                   alt="Matrix Logo"
-                  className="w-32 h-32 opacity-70 hover:opacity-100 transition-opacity duration-300"
+                  className="w-24 sm:w-28 md:w-32 lg:w-36 h-24 sm:h-28 md:h-32 lg:h-36 opacity-70 hover:opacity-100 transition-opacity duration-300"
                 />
                 <div className="absolute -inset-2 rounded-full bg-red-500/5 blur-xl"></div>
               </div>
             </div>
 
-            <p className="text-center text-gray-400 text-sm mb-8">
+            <p className="text-center text-gray-400 text-xs sm:text-sm mb-6 sm:mb-8 px-4">
               Proudly organized by{" "}
               <span className="text-red-500">MATRIX JEC</span> - The Technical
               Society of JEC
