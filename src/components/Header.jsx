@@ -16,7 +16,7 @@ const navList = [
 const Header = () => {
   const navigate = useNavigate();
   return (
-    <header className='flex w-full justify-evenly gap-6 items-center lg:mx- ms:mx mx- my-1'>
+    <header className='flex w-full justify-evenly gap-6 items-center lg:mx- ms:mx mx- my-1 z-10'>
      <BlurElement
       elements={[
       <div className='ms:w-30 w-24 h-fit'>
@@ -55,7 +55,7 @@ const ProfileLogo = () => {
       <div className='relative w-fit block ml:hidden text-white'
         onClick={() => { setDisplay((display) => !display) }}>
         <div className='px-2 rounded-full bg-[#009cff80] w-24 text-center'>{currPage}</div>
-        {display && <nav className='absolute flex-col min-w-fit flex py-2 rounded-lg mt-0.5 z-101 w-48 -left-12 overflow-hidden bg-[#0000005b]' style={{ backdropFilter: "blur(3px)" }}>
+        {display && <nav className='absolute flex-col min-w-fit flex py-2 rounded-lg mt-0.5 z-101 w-48 -left-12 overflow-hidden bg-[#000000c7]' style={{ backdropFilter: "blur(3px)" }}>
           {navList.map((ele) => {
             return (<NavLink key={ele.label} to={ele.path} onClick={(e)=>{setCurrPage(ele.label)}} className={"px-2 rounded-full text-center"} style={({ isActive }) => { return { backgroundColor: isActive ? "rgb(0 156 255 / 50%)" : "transparent" } }} end>
               {ele.label}
@@ -64,7 +64,7 @@ const ProfileLogo = () => {
         </nav>
         }
       </div>
-      {!!display && <div className='w-dvw h-full absolute z-100 top-0 bg-transparent left-0' onClick={(e) => { setDisplay((display) => !display) }}></div>}
+      {!!display && <div className='w-dvw h-dvh absolute z-100 -top-6 bg-transparent -left-[50dvw]' onClick={(e) => { setDisplay((display) => !display) }}></div>}
     </>
   )
 }
