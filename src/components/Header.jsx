@@ -16,7 +16,7 @@ const navList = [
 const Header = () => {
   const navigate = useNavigate();
   return (
-    <header className='flex w-full justify-evenly gap-6 items-center lg:mx- ms:mx mx- my-1'>
+    <header className='flex w-full justify-evenly gap-6 items-center lg:mx- ms:mx mx- my-1 z-10'>
      <BlurElement
       elements={[
       <div className='ms:w-30 w-24 h-fit'>
