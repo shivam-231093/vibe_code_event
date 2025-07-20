@@ -19,7 +19,7 @@ const teamMateFields = [
   { type: "text", name: "teamMember", label: "Team Mate's Name", options: { required: true } },
   { type: "text", name: "teamPhoneNum", label: "Team Mate's Phone Number", options: { required: true, patten: /^\d+$/, maxLength: 10 } },
   { type: "text", name: "teamEmailId", label: "Team Mate's Email Address", options: { required: true, patten: /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/ } },
-  { type: "text", name: "teamBranch", label: "Team Mate's Branch", options: { required: true }, dropdown: true, values: ["AI", "CE", "CS", "EE", "MT", "IP", "IT"] },
+  { type: "text", name: "teamBranch", label: "Team Mate's Branch", options: { required: true }, dropdown: true, values: ["AI", "CE", "CS","ECE" ,"EE","MECH", "MT", "IP", "IT"] },
   { type: "text", name: "teamSemester", label: "Team Mate's Semester", options: { required: true }, dropdown: true, values: ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th"] },
   { type: "text", name: "teamGithub", label: "Team Mate's Github" },
   { type: "text", name: "teamLinkdin", label: "Team Mate's LinkedIn" },
