@@ -172,7 +172,7 @@ const Register = () => {
           </div>
 
           {/* Team Mate Fields */}
-          <div className={`transition-all duration-500 mt-6 ease-in-out overflow-hidden col-span-2 grid grid-cols-1 ms:grid-cols-2 gap-6 ${formData.teamsize === "Dynamic Duo" ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+          <div className={`transition-all duration-500 mt-6 ease-in-out col-span-2 grid grid-cols-1 ms:grid-cols-2 gap-6 ${formData.teamsize === "Dynamic Duo" ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
             {teamMateFields.map((ele) => (
               <InputField
                 key={ele.name}
