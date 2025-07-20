@@ -8,7 +8,7 @@ const TeamCard = ({ image, name, position, description }) => {
   return (
     <div className="mx-2 sm:mx-3 md:mx-4 mb-6 sm:mb-8 w-[240px] sm:w-[260px] md:w-[280px] lg:w-[300px] min-w-[240px] sm:min-w-[260px] md:min-w-[280px] lg:min-w-[300px]">
       <div
-        className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-2xl transition-all duration-300 hover:scale-[1.02] sm:hover:scale-[1.03] hover:shadow-red-500/20 cursor-pointer h-[320px] sm:h-[350px] md:h-[380px] lg:h-[400px] border border-red-500/10 backdrop-blur-sm"
+        className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-2xl transition-all duration-300 hover:scale-[.02] sm:hover:scale-[1.03] hover:shadow-red-500/20 cursor-pointer h-[320px] sm:h-[350px] md:h-[380px] lg:h-[400px] border border-red-500/10 backdrop-blur-sm"
         onMouseEnter={() => setShowInfo(true)}
         onMouseLeave={() => setShowInfo(false)}
         onClick={() => setShowInfo(!showInfo)} // Add touch support for mobile
@@ -26,7 +26,7 @@ const TeamCard = ({ image, name, position, description }) => {
         <div className="absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-red-500/10 z-[5] opacity-60" />
 
         {/* Gradient overlay */}
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black via-black/80 to-transparent z-10" />
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/70  to-transparent z-10" />
 
         {/* Image with better styling */}
         <img
@@ -52,9 +52,9 @@ const TeamCard = ({ image, name, position, description }) => {
         {/* Info overlay with improved animation and styling */}
         {showInfo && description && (
           <div
-            className="absolute inset-0 bg-gradient-to-b from-black/95 to-black/95 z-30 flex items-center justify-center p-4 sm:p-5 md:p-6 backdrop-blur-sm animate-fade-in-word"
+            className="absolute inset-0 bg-gradient-to-b from-transparent to-black z-30 flex items-center justify-center p-4 sm:p-5 md:p-6 backdrop-blur-sm animate-fade-in-word"
             style={{
-              backdropFilter: "blur(5px)",
+              backdropFilter: "blur(7px)",
             }}
           >
             <div className="text-center max-w-[200px] sm:max-w-xs">

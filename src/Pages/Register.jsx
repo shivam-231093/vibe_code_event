@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import DropdownInputField from '../components/DropdownInputField';
 import { db } from '../firebase';
-import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import {
+  collection,
+  addDoc,
+  Timestamp,
+  query,
+  where,
+  getDocs
+} from 'firebase/firestore';
 
 const inputFieldList = [
   { type: "text", name: "teamsize", label: "Team Size", options: { required: true }, dropdown: true, values: ["Solo Rider", "Dynamic Duo"] },
@@ -9,7 +16,7 @@ const inputFieldList = [
   { type: "text", name: "fullName", label: "Full Name", options: { required: true } },
   { type: "text", name: "phoneNum", label: "Phone Number", options: { required: true, patten: /^\d+$/, maxLength: 10 } },
   { type: "text", name: "emailId", label: "Email Address", options: { required: true, patten: /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/ } },
-  { type: "text", name: "branch", label: "Branch", options: { required: true }, dropdown: true, values: ["AI", "CE", "CS","ECE", "EE","MECH", "MT", "IP", "IT"] },
+  { type: "text", name: "branch", label: "Branch", options: { required: true }, dropdown: true, values: ["AI", "CE", "CS", "ECE", "EE", "MECH", "MT", "IP", "IT"] },
   { type: "text", name: "semester", label: "Semester", options: { required: true }, dropdown: true, values: ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th"] },
   { type: "text", name: "github", label: "Github" },
   { type: "text", name: "linkdin", label: "LinkedIn" },
@@ -19,14 +26,14 @@ const teamMateFields = [
   { type: "text", name: "teamMember", label: "Team Mate's Name", options: { required: true } },
   { type: "text", name: "teamPhoneNum", label: "Team Mate's Phone Number", options: { required: true, patten: /^\d+$/, maxLength: 10 } },
   { type: "text", name: "teamEmailId", label: "Team Mate's Email Address", options: { required: true, patten: /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/ } },
-  { type: "text", name: "teamBranch", label: "Team Mate's Branch", options: { required: true }, dropdown: true, values: ["AI", "CE", "CS","ECE" ,"EE","MECH", "MT", "IP", "IT"] },
+  { type: "text", name: "teamBranch", label: "Team Mate's Branch", options: { required: true }, dropdown: true, values: ["AI", "CE", "CS", "ECE", "EE", "MECH", "MT", "IP", "IT"] },
   { type: "text", name: "teamSemester", label: "Team Mate's Semester", options: { required: true }, dropdown: true, values: ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th"] },
   { type: "text", name: "teamGithub", label: "Team Mate's Github" },
   { type: "text", name: "teamLinkdin", label: "Team Mate's LinkedIn" },
 ];
 
 const InputField = ({ type, name, label, value, onChange, error, dropdown, values }) => (
-  <div className='flex flex-col w-full  transition-all duration-300'>
+  <div className='flex flex-col w-full transition-all duration-300'>
     <div className='flex w-56 justify-between'>
       <label htmlFor={name} className='text-sm'>{label}</label>
       {!!error && <p className='text-sm text-red-600'>{error}</p>}
@@ -66,7 +73,7 @@ const Register = () => {
 
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false); // ✅ success state
+  const [success, setSuccess] = useState(false);
 
   const updateFormData = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -106,12 +113,44 @@ const Register = () => {
 
     try {
       setLoading(true);
-      await addDoc(collection(db, "registrations"), {
+
+      const registrationsRef = collection(db, "registrations");
+
+      // Check for duplicates
+      const queries = [
+        { field: "emailId", value: formData.emailId, name: "emailId" },
+        { field: "phoneNum", value: formData.phoneNum, name: "phoneNum" },
+        { field: "teamName", value: formData.teamName, name: "teamName" },
+      ];
+
+      if (formData.teamsize === "Dynamic Duo") {
+        queries.push(
+          { field: "teamEmailId", value: formData.teamEmailId, name: "teamEmailId" },
+          { field: "teamPhoneNum", value: formData.teamPhoneNum, name: "teamPhoneNum" }
+        );
+      }
+
+      let hasDuplicate = false;
+      for (const q of queries) {
+        const snap = await getDocs(query(registrationsRef, where(q.field, "==", q.value)));
+        if (!snap.empty) {
+          updateError(q.name, "Already registered!");
+          hasDuplicate = true;
+        } else {
+          updateError(q.name, ""); // clear old error if any
+        }
+      }
+
+      if (hasDuplicate) {
+        setLoading(false);
+        return;
+      }
+
+      await addDoc(registrationsRef, {
         ...formData,
         timestamp: Timestamp.now(),
       });
 
-      // Reset state
       setFormData({
         teamsize: "",
         teamName: "",
@@ -132,8 +171,8 @@ const Register = () => {
       });
 
       setError({});
-      setSuccess(true); // ✅ show success
-      setTimeout(() => setSuccess(false), 5000); // auto-hide after 5s
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 5000);
 
     } catch (err) {
       console.error(err);
@@ -154,7 +193,7 @@ const Register = () => {
           </div>
         )}
 
-        <div className='grid gri'>
+        <div className='grid'>
           <div className='col-span-2 grid grid-cols-1 ms:grid-cols-2 gap-6'>
             {inputFieldList.map((ele) => (
               <InputField
@@ -193,7 +232,7 @@ const Register = () => {
           type='button'
           onClick={handleSubmit}
           disabled={loading}
-          className='font-inter font-bold text-sm bg-[#FF0000CC] hover:bg-[#ff0000f0] rounded-lg px-8 py-1.5 cursor-pointer mt-4 mb-2 transition-all duration-300'
+          className='font-inter font-bold text-sm bg-[#FF0000CC] z-50 hover:bg-[#ff0000f0] rounded-lg px-8 py-1.5 cursor-pointer mt-4 mb-2 transition-all w-full h-full duration-300'
         >
           {loading ? "Submitting..." : "REGISTER!"}
         </button>
