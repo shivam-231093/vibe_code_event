@@ -7,9 +7,13 @@ import StudentModal from "../../components/Admin/StudentModal";
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
     totalUsers: 0,
-    totalEvents: 0,
-    activeEvents: 0,
+    soloCount: 0,
+    teamCount: 0,
+    soloParticipants: 0,
+    duoParticipants: 0,
+    totalParticipants: 0,
     recentRegistrations: 0,
+    semesterStats: {},
   });
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -52,11 +56,27 @@ const AdminDashboard = () => {
         (reg) => reg.teamsize === "Dynamic Duo"
       ).length;
 
+      // Calculate participants
+      const soloParticipants = soloCount; // Solo riders = 1 participant each
+      const duoParticipants = teamCount * 2; // Duo teams = 2 participants each
+      const totalParticipants = soloParticipants + duoParticipants;
+
+      // Count semester-wise participants
+      const semesterStats = registrations.reduce((acc, reg) => {
+        const semester = reg.semester || "Unknown";
+        acc[semester] = (acc[semester] || 0) + 1;
+        return acc;
+      }, {});
+
       setStats({
         totalUsers,
-        totalEvents: soloCount + teamCount, // Total registrations
-        activeEvents: teamCount, // Team registrations
+        soloCount,
+        teamCount,
+        soloParticipants,
+        duoParticipants,
+        totalParticipants,
         recentRegistrations,
+        semesterStats,
       });
 
       setStudents(registrations);
@@ -111,7 +131,8 @@ const AdminDashboard = () => {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+        {/* Total Registrations */}
         <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
           <div className="flex items-center">
             <div className="flex-1">
@@ -119,7 +140,7 @@ const AdminDashboard = () => {
                 Total Registrations
               </p>
               <p className="text-2xl font-bold text-white">
-                {stats.recentRegistrations}
+                {stats.totalUsers}
               </p>
             </div>
             <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center">
@@ -133,7 +154,149 @@ const AdminDashboard = () => {
             </div>
           </div>
         </div>
+
+        {/* Solo Riders */}
+        <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
+          <div className="flex items-center">
+            <div className="flex-1">
+              <p className="text-sm font-medium text-gray-400">Solo Rider Teams</p>
+              <p className="text-2xl font-bold text-white">{stats.soloCount}</p>
+            </div>
+            <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+              <svg
+                className="w-4 h-4 text-white"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        {/* Dynamic Duo */}
+        <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
+          <div className="flex items-center">
+            <div className="flex-1">
+              <p className="text-sm font-medium text-gray-400">Dynamic Duo Teams</p>
+              <p className="text-2xl font-bold text-white">{stats.teamCount}</p>
+            </div>
+            <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+              <svg
+                className="w-4 h-4 text-white"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM1.49 15.326a.78.78 0 01-.358-.442 3 3 0 014.308-3.516 6.484 6.484 0 00-1.905 3.959z" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        {/* Solo Participants */}
+        <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
+          <div className="flex items-center">
+            <div className="flex-1">
+              <p className="text-sm font-medium text-gray-400">
+                Solo Participants
+              </p>
+              <p className="text-2xl font-bold text-white">
+                {stats.soloParticipants}
+              </p>
+            </div>
+            <div className="w-8 h-8 bg-cyan-600 rounded-full flex items-center justify-center">
+              <svg
+                className="w-4 h-4 text-white"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        {/* Duo Participants */}
+        <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
+          <div className="flex items-center">
+            <div className="flex-1">
+              <p className="text-sm font-medium text-gray-400">
+                Duo Participants
+              </p>
+              <p className="text-2xl font-bold text-white">
+                {stats.duoParticipants}
+              </p>
+            </div>
+            <div className="w-8 h-8 bg-pink-600 rounded-full flex items-center justify-center">
+              <svg
+                className="w-4 h-4 text-white"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM1.49 15.326a.78.78 0 01-.358-.442 3 3 0 014.308-3.516 6.484 6.484 0 00-1.905 3.959z" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        {/* Total Participants */}
+        <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
+          <div className="flex items-center">
+            <div className="flex-1">
+              <p className="text-sm font-medium text-gray-400">
+                Total Participants
+              </p>
+              <p className="text-2xl font-bold text-white">
+                {stats.totalParticipants}
+              </p>
+            </div>
+            <div className="w-8 h-8 bg-yellow-600 rounded-full flex items-center justify-center">
+              <svg
+                className="w-4 h-4 text-white"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
+
+      {/* Semester-wise Statistics */}
+      {Object.keys(stats.semesterStats).length > 0 && (
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-white mb-4">
+            Semester-wise Participants
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {Object.entries(stats.semesterStats).map(([semester, count]) => (
+              <div
+                key={semester}
+                className="bg-gray-900 border border-gray-800 rounded-lg p-4"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-400">
+                      {semester}
+                    </p>
+                    <p className="text-xl font-bold text-white">{count}</p>
+                  </div>
+                  <div className="w-6 h-6 bg-indigo-600 rounded-full flex items-center justify-center">
+                    <svg
+                      className="w-3 h-3 text-white"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Student Registrations */}
       <div className="space-y-6">
@@ -218,7 +381,6 @@ const AdminDashboard = () => {
           </div>
         )}
       </div>
-
 
       {/* Student Details Modal */}
       <StudentModal
