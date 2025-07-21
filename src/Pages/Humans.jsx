@@ -172,7 +172,7 @@ const Humans = () => {
                   image={"/mamtamam.jpeg"}
                   name="Dr. Mamta Lambert"
                   position="Head of Department, IT"
-                  description="Specializes in Database Management Systems and Software Engineering with 8+ years of teaching experience."
+                  description="Specializes in Database Management Systems and Software Engineering with 29+ years of teaching experience."
                 />
                 <TeamCard
                   image={"/abhilashsir.jpeg"}
