@@ -28,6 +28,8 @@ const AdminDashboard = () => {
 
   const fetchDashboardData = async () => {
     try {
+      console.log("Fetching dashboard data...");
+
       // Fetch registrations data
       const registrationsQuery = query(
         collection(db, "registrations"),
@@ -38,6 +40,9 @@ const AdminDashboard = () => {
         id: doc.id,
         ...doc.data(),
       }));
+
+      console.log("Fetched registrations:", registrations);
+      console.log("Sample registration data:", registrations[0]);
 
       // Calculate stats
       const totalUsers = registrations.length;
@@ -95,6 +100,118 @@ const AdminDashboard = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedStudent(null);
+  };
+
+  const handleExportEmails = () => {
+    try {
+      console.log("Total students:", students.length);
+      console.log("Students data:", students);
+
+      if (students.length === 0) {
+        alert(
+          "No student data available to export. Please ensure there are registrations in the database."
+        );
+        return;
+      }
+
+      // Collect all unique emails from emailId and teamEmailId fields
+      const uniqueEmails = new Set();
+      const emailDetails = [];
+
+      students.forEach((student) => {
+        // Add primary email (emailId)
+        if (student.emailId && student.emailId.trim()) {
+          const email = student.emailId.trim();
+          if (!uniqueEmails.has(email)) {
+            uniqueEmails.add(email);
+            emailDetails.push({
+              email: email,
+              name: student.fullName || "N/A",
+              type: "Primary",
+              teamsize: student.teamsize || "N/A",
+              semester: student.semester || "N/A",
+              branch: student.branch || "N/A",
+              teamName: student.teamName || "N/A",
+              phoneNum: student.phoneNum || "N/A",
+              github: student.github || "N/A",
+              linkdin: student.linkdin || "N/A",
+              timestamp: student.timestamp?.seconds
+                ? new Date(student.timestamp.seconds * 1000).toISOString()
+                : new Date().toISOString(),
+              registrationId: student.id,
+            });
+          }
+        }
+
+        // Add team member email (teamEmailId) - only for Dynamic Duo
+        if (
+          student.teamEmailId &&
+          student.teamEmailId.trim() &&
+          student.teamsize === "Dynamic Duo"
+        ) {
+          const email = student.teamEmailId.trim();
+          if (!uniqueEmails.has(email)) {
+            uniqueEmails.add(email);
+            emailDetails.push({
+              email: email,
+              name: student.teamMember || "N/A",
+              type: "Team Member",
+              teamsize: student.teamsize || "N/A",
+              semester: student.teamSemester || "N/A",
+              branch: student.teamBranch || "N/A",
+              teamName: student.teamName || "N/A",
+              phoneNum: student.teamPhoneNum || "N/A",
+              github: student.teamGithub || "N/A",
+              linkdin: student.teamLinkdin || "N/A",
+              timestamp: student.timestamp?.seconds
+                ? new Date(student.timestamp.seconds * 1000).toISOString()
+                : new Date().toISOString(),
+              registrationId: student.id,
+            });
+          }
+        }
+      });
+
+      // Sort by email for better organization
+      emailDetails.sort((a, b) => a.email.localeCompare(b.email));
+
+      console.log("Unique emails to export:", emailDetails);
+
+      // Create JSON blob and download
+      const exportData = {
+        exportDate: new Date().toISOString(),
+        totalUniqueEmails: emailDetails.length,
+        totalRegistrations: students.length,
+        emails: emailDetails,
+      };
+
+      const jsonString = JSON.stringify(exportData, null, 2);
+      const blob = new Blob([jsonString], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+
+      // Create download link
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `unique-participant-emails-${
+        new Date().toISOString().split("T")[0]
+      }.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Clean up
+      URL.revokeObjectURL(url);
+
+      console.log(
+        `Exported ${emailDetails.length} unique emails from ${students.length} registrations`
+      );
+      alert(
+        `Successfully exported ${emailDetails.length} unique emails from ${students.length} registrations!`
+      );
+    } catch (error) {
+      console.error("Error exporting emails:", error);
+      alert("Failed to export emails. Please try again.");
+    }
   };
 
   // Pagination logic
@@ -159,7 +276,9 @@ const AdminDashboard = () => {
         <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
           <div className="flex items-center">
             <div className="flex-1">
-              <p className="text-sm font-medium text-gray-400">Solo Rider Teams</p>
+              <p className="text-sm font-medium text-gray-400">
+                Solo Rider Teams
+              </p>
               <p className="text-2xl font-bold text-white">{stats.soloCount}</p>
             </div>
             <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
@@ -178,7 +297,9 @@ const AdminDashboard = () => {
         <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
           <div className="flex items-center">
             <div className="flex-1">
-              <p className="text-sm font-medium text-gray-400">Dynamic Duo Teams</p>
+              <p className="text-sm font-medium text-gray-400">
+                Dynamic Duo Teams
+              </p>
               <p className="text-2xl font-bold text-white">{stats.teamCount}</p>
             </div>
             <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
@@ -304,8 +425,29 @@ const AdminDashboard = () => {
           <h3 className="text-xl font-semibold text-white">
             Student Registrations ({students.length})
           </h3>
-          <div className="text-sm text-gray-400">
-            Page {currentPage} of {totalPages}
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={handleExportEmails}
+              className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center space-x-2"
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+              <span>Export Emails</span>
+            </button>
+            <div className="text-sm text-gray-400">
+              Page {currentPage} of {totalPages}
+            </div>
           </div>
         </div>
 
