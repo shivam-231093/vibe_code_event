@@ -209,12 +209,7 @@ const Humans = () => {
                   position="Lead Coordinator"
                   description="Student at JEC and a member of MATRIX JEC. Specializes in event management, team coordination and technical aspects."
                 />
-                <TeamCard
-                  image={"/rishika.jpg"}
-                  name="Rishika Fulwani"
-                  position="Co-Lead Coordinator"
-                  description="Student at JEC and a member of MATRIX JEC. Handles technical aspects of events and workshops."
-                />
+               
               </div>
             </div>
           </motion.div>
